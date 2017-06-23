@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">有客找房</string>
+    <string name="search">我要找房</string>
+    <string name="position">您所在的位置：</string>
+</resources>
