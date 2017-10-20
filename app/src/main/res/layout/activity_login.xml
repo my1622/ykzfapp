@@ -44,20 +44,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
-            android:background="@android:color/white"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:background="@color/transparent"
-
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
                     android:textColorHint="@color/md_grey_700"
                     android:padding="@dimen/dp_10"
-                    android:background="@null"
+                    android:background="@color/primary_text_white"
+
                     android:paddingLeft="20dp"
                     android:id="@+id/username"
                     android:drawableStart="@drawable/user_name"
@@ -83,7 +82,7 @@
                     android:textColorHint="@color/md_grey_700"
 
                     android:padding="@dimen/dp_10"
-                    android:background="@null"
+                    android:background="@color/primary_text_white"
                     android:drawableStart="@drawable/password"
                     android:id="@+id/password"
                     android:layout_width="match_parent"
@@ -115,7 +114,7 @@
                 android:layout_marginTop="@dimen/dp_20"
                 android:layout_marginBottom="5dp"
 
-                android:background="@color/colorPrimary"
+                android:background="@drawable/selector_circle_corner_button1"
                 android:text="登录"
                 android:textColor="@android:color/white"
                 app:finalCornerAngle="50dp"
