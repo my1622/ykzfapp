@@ -41,62 +41,28 @@ dependencies {
     })
     compile rootProject.ext.dependencies["appcompat-v7"]
     compile rootProject.ext.dependencies["design"]
-    //butterknife
     compile rootProject.ext.dependencies["retrofit"]
-    //retrofit
     compile rootProject.ext.dependencies["retrofit-adapter-rxjava"]
-    //最后一个是Retrofit适配RxJava2必须要添加的
     compile rootProject.ext.dependencies["retrofit-converter-gson"]
     compile rootProject.ext.dependencies["okhttp"]
     compile rootProject.ext.dependencies["okhttp-logging-interceptor"]
-    //其中包括bitmap处理，文件操作，加密存储器，shell命令，
 
-    // 静默安装，计数器，均值器，吐司，日志，校验，提示，
-
-    // 网络监测等基础功能，
-
-    // 以及一些Base64、MD5、Hex、Byte、Number、
-
-    // Dialog、Filed、Class、Package、Telephone、Random等工具类。
-    //dagger2
-    //logger
-    //intro-screen
-    //pathview
-    // Because RxAndroid releases are few and far between, it is recommended you also
-
-    // explicitly depend on RxJava's latest version for bug fixes and new features.
     compile rootProject.ext.dependencies["rxjava"]
     compile rootProject.ext.dependencies["rxandroid"]
     compile rootProject.ext.dependencies["rxbinding"]
-    //rxbinding2
-    //sweet-aler-processing-dialog
-    //tag插件
-    //RecyclerViewAdapter插件
-    //文件目录选择控件
-    //可下拉伸展的textview
-    //轮播广告
-    //竖播文字广告
-    //图片选择器
-    //x选中标签插件
-    /*圆形图片*/
+
 
     compile 'com.jakewharton:butterknife:8.6.0'
     compile 'com.android.support:recyclerview-v7:26.0.0-alpha1'
     compile 'com.android.support:cardview-v7:26.0.0-alpha1'
-
-    compile 'br.com.simplepass:loading-button-android:1.7.1'
-
-
-    compile 'com.cjj.materialrefeshlayout:library:1.3.0'
-    compile 'com.dinuscxj:recyclerrefreshlayout:2.0.3'
-
-
     compile 'com.alibaba:fastjson:1.1.62.android'
-    compile 'com.xiaosu:pullLayout:3.0.4'
-
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.6.0'
+
+    compile 'info.android15.nucleus5:nucleus:5.0.0-beta1'
+    compile 'info.android15.nucleus5:nucleus-support-v4:5.0.0-beta1'
+    compile 'info.android15.nucleus5:nucleus-support-v7:5.0.0-beta1'
+
 
 
 

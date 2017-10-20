@@ -1,4 +1,4 @@
-package whzl.com.ykzfapp.aty;
+package whzl.com.ykzfapp.Login;
 
 
 import android.widget.AutoCompleteTextView;
@@ -8,6 +8,7 @@ import android.widget.EditText;
 import butterknife.BindView;
 import whzl.com.ykzfapp.R;
 import whzl.com.ykzfapp.base.BaseActivity;
+import whzl.com.ykzfapp.utils.ToastUitl;
 
 public class LoginActivity extends BaseActivity {
 
@@ -34,6 +35,10 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
 
+    }
+
+    void onClick(){
+        ToastUitl.showShort("dianji");
     }
 
 

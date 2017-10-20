@@ -5,11 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import nucleus5.presenter.Presenter;
+import nucleus5.view.NucleusAppCompatActivity;
 import whzl.com.ykzfapp.R;
 import whzl.com.ykzfapp.app.AppManager;
 import whzl.com.ykzfapp.utils.StatusBarSetting;
@@ -20,7 +21,7 @@ import whzl.com.ykzfapp.utils.ToastUitl;
  * 基类
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<P extends Presenter> extends NucleusAppCompatActivity<P> {
 
     public Context mContext;
     private Unbinder mUnbinder;

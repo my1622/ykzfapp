@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     android:background="@drawable/bg"
-    tools:context=".aty.LoginActivity">
+    tools:context=".Login.LoginActivity">
 
 
 
@@ -42,8 +42,7 @@
             android:id="@+id/phone_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -53,19 +52,20 @@
                 android:layout_height="wrap_content">
 
                 <AutoCompleteTextView
-                    android:textColorHint="@color/md_grey_700"
+                    android:textColorHint="@color/toast_white"
                     android:padding="@dimen/dp_10"
                     android:background="@color/primary_text_white"
 
                     android:paddingLeft="20dp"
                     android:id="@+id/username"
+                    android:drawablePadding="@dimen/dp_10"
                     android:drawableStart="@drawable/user_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_username"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@color/toast_white"
                     />
 
             </android.support.design.widget.TextInputLayout>
@@ -74,44 +74,36 @@
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_20"
                 android:background="@color/transparent"
                >
 
                 <EditText
-                    android:textColorHint="@color/md_grey_700"
+                    android:textColorHint="@color/toast_white"
 
                     android:padding="@dimen/dp_10"
                     android:background="@color/primary_text_white"
                     android:drawableStart="@drawable/password"
                     android:id="@+id/password"
+                    android:drawablePadding="@dimen/dp_10"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_password"
                     android:imeActionId="@+id/login"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:inputType="textPassword"
-
                     android:maxLines="1"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/toast_white" />
 
             </android.support.design.widget.TextInputLayout>
 
-            <!--<Button
-                android:background="@drawable/selector_circle_corner_button"
-                android:id="@+id/sign_in_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
-                android:textStyle="bold" />-->
             <Button
+                android:onClick="onclick"
+                android:layout_marginTop="10dp"
                 android:id="@+id/progress_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@drawable/selector_circle_corner_button1"
-                android:text="登录"
+                android:text="@string/login"
                 android:textColor="@android:color/white"
                 />
 
@@ -124,7 +116,7 @@
     <android.support.v4.widget.Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.6">
+        android:layout_weight="0.7">
     </android.support.v4.widget.Space>
 
 </LinearLayout>
