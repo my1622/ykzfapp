@@ -106,22 +106,14 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />-->
-            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+            <Button
                 android:id="@+id/progress_btn"
-
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="@dimen/dp_20"
-                android:layout_marginBottom="5dp"
-
                 android:background="@drawable/selector_circle_corner_button1"
                 android:text="登录"
                 android:textColor="@android:color/white"
-                app:finalCornerAngle="50dp"
-                app:initialCornerAngle="50dp"
-                app:spinning_bar_color="@color/white"
-                app:spinning_bar_padding="10dp"
-                app:spinning_bar_width="4dp" />
+                />
 
 
         </LinearLayout>

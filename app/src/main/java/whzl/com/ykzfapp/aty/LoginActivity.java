@@ -2,10 +2,9 @@ package whzl.com.ykzfapp.aty;
 
 
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
-import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton;
 import butterknife.BindView;
 import whzl.com.ykzfapp.R;
 import whzl.com.ykzfapp.base.BaseActivity;
@@ -18,11 +17,9 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.password)
     EditText password;
     @BindView(R.id.progress_btn)
-    CircularProgressButton progressBtn;
-    @BindView(R.id.phone_login_form)
-    LinearLayout phoneLoginForm;
-    @BindView(R.id.login_form)
-    LinearLayout loginForm;
+    Button progressBtn;
+
+
 
     @Override
     public int getLayoutId() {
