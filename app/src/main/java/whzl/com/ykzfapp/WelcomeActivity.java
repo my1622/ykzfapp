@@ -17,7 +17,7 @@ import whzl.com.ykzfapp.tools.Util;
  * @date 2015/04/02
  */
 @SuppressLint("HandlerLeak")
-public class SystemLoadingActivity extends FinalActivity {
+public class WelcomeActivity extends FinalActivity {
 
 
 	private Message msg;
@@ -46,7 +46,7 @@ public class SystemLoadingActivity extends FinalActivity {
 				businessThread.start();
 				break;
 			case 1: //两秒后开始跳转activity
-				Util.activitySkip(SystemLoadingActivity.this,
+				Util.activitySkip(WelcomeActivity.this,
 						MainActivity.class, true,null);
 				break;
 			}

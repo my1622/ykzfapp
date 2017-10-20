@@ -38,10 +38,10 @@ public class AccessSelectActivity extends FinalActivity{
 //		}
         if (mark) {
             Util.activitySkip(AccessSelectActivity.this,
-                    SystemIntroduceActivity.class, true,null);
+                    GuildeActivity.class, true,null);
         } else {
             Util.activitySkip(AccessSelectActivity.this,
-                    SystemLoadingActivity.class, true,null);
+                    WelcomeActivity.class, true,null);
         }
     }
 

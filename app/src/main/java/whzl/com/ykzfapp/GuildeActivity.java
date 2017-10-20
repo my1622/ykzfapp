@@ -13,7 +13,7 @@ import whzl.com.ykzfapp.tools.Util;
  * 设置中也提供进入的入口
  */
 
-public class SystemIntroduceActivity extends Activity {
+public class GuildeActivity extends Activity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
