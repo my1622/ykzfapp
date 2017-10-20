@@ -1,0 +1,139 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/bg"
+    tools:context=".aty.LoginActivity">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+
+            android:gravity="center_vertical|center_horizontal"
+            android:padding="20dp">
+
+
+        </FrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/video_user_header_size"
+        android:layout_marginRight="@dimen/video_user_header_size"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/phone_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:background="@android:color/white"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:background="@color/transparent"
+
+                android:layout_height="wrap_content">
+
+                <AutoCompleteTextView
+                    android:textColorHint="@color/md_grey_700"
+                    android:padding="@dimen/dp_10"
+                    android:background="@null"
+                    android:paddingLeft="20dp"
+                    android:id="@+id/username"
+                    android:drawableStart="@drawable/user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_username"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="@color/colorPrimary"
+                    />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_20"
+                android:background="@color/transparent"
+               >
+
+                <EditText
+                    android:textColorHint="@color/md_grey_700"
+
+                    android:padding="@dimen/dp_10"
+                    android:background="@null"
+                    android:drawableStart="@drawable/password"
+                    android:id="@+id/password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/prompt_password"
+                    android:imeActionId="@+id/login"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:inputType="textPassword"
+
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimary" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!--<Button
+                android:background="@drawable/selector_circle_corner_button"
+                android:id="@+id/sign_in_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/action_sign_in"
+                android:textStyle="bold" />-->
+            <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+                android:id="@+id/progress_btn"
+
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="@dimen/dp_20"
+                android:layout_marginBottom="5dp"
+
+                android:background="@color/colorPrimary"
+                android:text="登录"
+                android:textColor="@android:color/white"
+                app:finalCornerAngle="50dp"
+                app:initialCornerAngle="50dp"
+                app:spinning_bar_color="@color/white"
+                app:spinning_bar_padding="10dp"
+                app:spinning_bar_width="4dp" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.6">
+    </android.support.v4.widget.Space>
+
+</LinearLayout>
