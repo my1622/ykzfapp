@@ -1,99 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <ImageView
+    android:fitsSystemWindows="true"
+    tools:context=".mvp.ui.activity.MainActivity">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@drawable/banner_1">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    </ImageView>
-    <TextView
-        android:id="@+id/tvMessage"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/position"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <LinearLayout
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
-        <Button
-            android:id="@+id/btnsearch"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <FrameLayout
+            android:id="@+id/realtabcontent"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
+            android:orientation="vertical">
 
-            android:text="@string/search"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+        </FrameLayout>
 
-            android:text="@string/search"/>
+        <android.support.v4.app.FragmentTabHost
+            android:id="@+id/tabhost"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
 
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="0"></FrameLayout>
 
-
-    </LinearLayout>
-    <LinearLayout
-        android:id="@android:id/list"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-
-            android:text="@string/search"/>
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_weight="1"
-            android:text="@string/search" />
+        </android.support.v4.app.FragmentTabHost>
 
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
+    <!--  <android.support.design.widget.NavigationView
+          android:id="@+id/navigation_view"
+          android:layout_width="300dp"
+          android:layout_height="match_parent"
+          android:layout_gravity="start"
+          app:headerLayout="@layout/layout_header"
+          app:itemTextColor="@color/colorAccent"
+          app:menu="@menu/menu_left">
 
-        <Button
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/nav_icon_1"/>
+      </android.support.design.widget.NavigationView>-->
 
-        <Button
 
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/nav_icon_2" />
-
-        <Button
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/nav_icon_3"/>
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/nav_icon_4" />
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

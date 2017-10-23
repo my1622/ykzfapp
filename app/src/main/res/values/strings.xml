@@ -9,4 +9,8 @@
     <string name="error_invalid_password">密码为空或者太短</string>
     <string name="error_field_required">用户名为空</string>
     <string name="login">登录</string>
+
+    <string name="house_list">全部房源</string>
+    <string name="todo_house_list">待完善房源</string>
+    <string name="mine">个人中心</string>
 </resources>

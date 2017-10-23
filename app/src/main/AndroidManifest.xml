@@ -35,16 +35,18 @@
         tools:replace="android:icon">
         <activity android:name=".mvp.ui.activity.LoginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
 
         <!-- arms配置 -->
         <meta-data
             android:name="whzl.com.ykzfapp.app.GlobalConfiguration"
-            android:value="ConfigModule"/>
+            android:value="ConfigModule" />
+
+        <activity android:name=".mvp.ui.activity.MainActivity"></activity>
     </application>
 
 </manifest>

@@ -106,6 +106,7 @@
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />-->
             <Button
+                android:onClick="AmtempToLogin"
                 android:id="@+id/progress_btn"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
