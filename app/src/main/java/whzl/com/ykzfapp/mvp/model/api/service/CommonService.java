@@ -15,6 +15,13 @@
   */
 package whzl.com.ykzfapp.mvp.model.api.service;
 
+import java.util.List;
+
+import io.reactivex.Observable;
+import retrofit2.http.GET;
+import whzl.com.ykzfapp.bean.BaseEntity;
+import whzl.com.ykzfapp.bean.DictionaryBean;
+
 /**
  * ================================================
  * 存放通用的一些 API
@@ -26,4 +33,7 @@ package whzl.com.ykzfapp.mvp.model.api.service;
  */
 public interface CommonService {
 
+
+    @GET("ykzfInterface/dictionaryAction_listDictionary.do")
+    Observable<BaseEntity<List<DictionaryBean>>> getDictionary();
 }

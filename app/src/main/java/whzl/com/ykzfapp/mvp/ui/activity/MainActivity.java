@@ -35,6 +35,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
 
+
     @BindView(R.id.realtabcontent)
     FrameLayout realtabcontent;
     @BindView(android.R.id.tabcontent)
@@ -135,6 +136,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     public void killMyself() {
         finish();
     }
+
 
 
 }

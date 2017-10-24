@@ -47,7 +47,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.Model, LoginCont
 
         mModel.getUsers(name,pwd)
                 .subscribeOn(Schedulers.io())
-                .retryWhen(new RetryWithDelay(1, 0))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
+                .retryWhen(new RetryWithDelay(1, 2))//遇到错误时重试,第一个参数为重试几次,第二个参数为重试的间隔
                 .doOnSubscribe(disposable -> {
 
                 })

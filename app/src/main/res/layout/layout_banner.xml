@@ -30,6 +30,7 @@
                 android:drawableStart="@drawable/ico_search_bar"
                 android:layout_marginLeft="@dimen/dp_20"
                 android:layout_marginRight="@dimen/dp_20"
+
                 android:background="@color/white"
 
                 android:hint="@string/search_hint" />

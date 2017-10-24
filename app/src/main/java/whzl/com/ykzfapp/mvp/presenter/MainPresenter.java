@@ -31,6 +31,7 @@ public class MainPresenter extends BasePresenter<MainContract.Model, MainContrac
         this.mAppManager = appManager;
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();

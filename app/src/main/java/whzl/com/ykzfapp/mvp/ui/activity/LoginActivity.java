@@ -127,7 +127,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             mCache.put("password", password.getText().toString().trim());
         }
         ToastUtil.show(LoginActivity.this, getString(R.string.login_success));
-        startActivity(new Intent(LoginActivity.this, StateUpdateActivity.class));
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
         this.finish();
 
     }

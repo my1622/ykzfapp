@@ -18,4 +18,5 @@
     <string name="house_detail_name">详情</string>
     <string name="user_bean">UserBean</string>
     <string name="login_success">登录成功</string>
+    <string name="dictionary">DictionaryBean</string>
 </resources>
