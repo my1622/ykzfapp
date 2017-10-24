@@ -8,7 +8,7 @@
     android:orientation="vertical"
     app:cardBackgroundColor="#fff"
     app:cardCornerRadius="4dp"
-    app:contentPadding="10dp">
+    app:contentPadding="5dp">
 
     <LinearLayout
 
@@ -24,7 +24,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
+            android:layout_height="90dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -39,7 +39,6 @@
                 android:src="@mipmap/ic_launcher" />
 
             <LinearLayout
-
 
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -58,13 +57,27 @@
 
                     <TextView
                         android:id="@+id/text_title"
-                        android:layout_width="wrap_content"
+                        android:layout_width="180dp"
                         android:layout_height="wrap_content"
-                        android:ems="15"
-                        android:singleLine="true"
+                        android:maxLines="1"
+                        android:ellipsize="end"
                         android:text="加州城"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="end"
+                        >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="@dimen/dp_3"
+                            android:layout_gravity="center"
+                            android:text="待发布"
+                            android:background="@drawable/custom_button"
+                            android:textColor="@color/colorPrimary" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -77,10 +90,12 @@
 
                     <TextView
                         android:id="@+id/text_info"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="加州城|3室2厅1厨1卫|122.88m2"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -89,35 +104,25 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center_vertical|center_horizontal"
+
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/text_tag"
+                        android:id="@+id/text_tag1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary"
-                        android:text="" />
-
-                    <!--<co.lujun.androidtagview.TagContainerLayout
-                        android:id="@+id/tag_group"
-                        android:layout_width="130dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_margin="0dp"
-                        android:padding="0dp"
-                        app:container_background_color="#00000000"
-                        app:container_border_color="#00000000"
-                        app:container_border_radius="0dp"
-                        app:container_enable_drag="false"
-                        app:horizontal_interval="0dp"
-                        app:tag_clickable="true"
-                        app:tag_horizontal_padding="2dp"
-                        app:tag_text_size="12sp"
-                        app:tag_theme="random"
-                        app:tag_vertical_padding="2dp"
-                        app:vertical_interval="0dp"
-
-                        />-->
+                        android:background="@color/md_green_400"
+                        android:textColor="@color/white"
+                        android:padding="@dimen/dp_5"
+                        android:text="学区房" />
+                    <TextView
+                        android:id="@+id/text_tag2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/md_red_400"
+                        android:textColor="@color/white"
+                        android:padding="@dimen/dp_5"
+                        android:text="满二年" />
 
 
                     <LinearLayout
@@ -141,7 +146,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:paddingRight="20dp"
-                            android:text="元/月" />
+                            android:textColor="@color/colorAccent"
+                            android:text="万" />
 
 
                     </LinearLayout>
@@ -186,14 +192,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:background="@drawable/selector_circle_corner_button"
-                    android:text="删除" />
+                    android:text="房源状态" />
 
                 <Button
                     android:id="@+id/btn_updata"
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:background="@drawable/selector_circle_corner_button"
-                    android:text="下架" />
+                    android:text="跟进" />
 
             </LinearLayout>
         </LinearLayout>

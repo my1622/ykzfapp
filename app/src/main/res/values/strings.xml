@@ -13,4 +13,7 @@
     <string name="house_list">全部房源</string>
     <string name="todo_house_list">待完善房源</string>
     <string name="mine">个人中心</string>
+    <string name="menu_logout">退出</string>
+    <string name="search_hint">请输入您需要搜索的小区</string>
+    <string name="house_detail_name">详情</string>
 </resources>

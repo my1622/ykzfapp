@@ -46,7 +46,9 @@
             android:name="whzl.com.ykzfapp.app.GlobalConfiguration"
             android:value="ConfigModule" />
 
-        <activity android:name=".mvp.ui.activity.MainActivity"></activity>
+        <activity android:name=".mvp.ui.activity.MainActivity" />
+        <activity android:name=".mvp.ui.activity.HouseDetailActivity"
+            android:label="@string/house_detail_name"/>
     </application>
 
 </manifest>

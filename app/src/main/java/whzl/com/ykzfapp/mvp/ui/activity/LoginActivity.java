@@ -3,6 +3,7 @@ package whzl.com.ykzfapp.mvp.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
@@ -73,4 +74,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
 
+    public void AmtempToLogin(View view) {
+        startActivity(new Intent(LoginActivity.this,MainActivity.class));
+    }
 }
