@@ -47,8 +47,10 @@
             android:value="ConfigModule" />
 
         <activity android:name=".mvp.ui.activity.MainActivity" />
-        <activity android:name=".mvp.ui.activity.HouseDetailActivity"
-            android:label="@string/house_detail_name"/>
+        <activity android:name=".mvp.ui.activity.HouseDetailActivity" />
+        <activity android:name=".mvp.ui.activity.StateUpdateActivity" />
+        <activity android:name=".mvp.ui.activity.FollowUpActivity" />
+        <activity android:name=".mvp.ui.activity.UpdateHouseActivity"></activity>
     </application>
 
 </manifest>

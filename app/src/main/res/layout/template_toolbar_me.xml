@@ -20,4 +20,14 @@
         android:layout_gravity="center"
         android:text="个人中心"
         android:textColor="@color/white" />
+    <TextView
+        android:id="@+id/tv_right"
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:paddingRight="@dimen/dp_10"
+        android:text="保存"
+        android:textColor="@color/white"
+        android:visibility="gone"/>
 </android.support.v7.widget.Toolbar>

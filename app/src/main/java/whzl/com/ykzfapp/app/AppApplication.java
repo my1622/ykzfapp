@@ -11,5 +11,8 @@ public class AppApplication extends MyBaseApplication {
     public void onCreate() {
         super.onCreate();
 
+
+
+
     }
 }

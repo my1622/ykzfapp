@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <include layout="@layout/template_toolbar_me" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_10">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/dp_10"
+                android:drawableStart="@drawable/state_update"
+                android:gravity="center_vertical"
+                android:text="选择状态" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10"
+            android:background="@drawable/custom_circle_corner"
+            android:padding="@dimen/dp_20">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/redio_buttom_checked"
+                android:gravity="center_vertical"
+                android:text="已成交" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:drawableStart="@drawable/redio_button_unchecked"
+                android:gravity="center_vertical"
+                android:text="无效房源" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp_10">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="@dimen/dp_10"
+                android:drawableStart="@drawable/ico_statu"
+                android:gravity="center_vertical"
+                android:text="状态变更" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="@dimen/dp_10"
+
+            android:background="@drawable/custom_circle_corner">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@color/white"
+                android:gravity="left|top"
+                android:inputType="textMultiLine"
+                android:minLines="6"
+
+                />
+
+        </LinearLayout>
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
+            android:id="@+id/progress_btn"
+
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="@dimen/dp_20"
+            android:layout_marginBottom="5dp"
+
+            android:background="@drawable/button_shape_default_rounded"
+            android:text="提交"
+            android:textColor="@android:color/white"
+            app:finalCornerAngle="50dp"
+            app:initialCornerAngle="50dp"
+            app:spinning_bar_color="@color/white"
+            app:spinning_bar_padding="10dp"
+            app:spinning_bar_width="4dp" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
