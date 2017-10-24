@@ -15,7 +15,15 @@
   */
 package whzl.com.ykzfapp.mvp.model.api.cache;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.rx_cache2.DynamicKey;
+import io.rx_cache2.LifeCache;
+import io.rx_cache2.Reply;
 import io.rx_cache2.internal.RxCache;
+import whzl.com.ykzfapp.bean.BaseEntity;
+import whzl.com.ykzfapp.bean.UserBean;
 
 /**
  * ================================================
@@ -28,6 +36,6 @@ import io.rx_cache2.internal.RxCache;
  */
 public interface CommonCache {
 
-  //  @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
-    //Observable<Reply<List<User>>> getUsers(Observable<List<User>> users, DynamicKey idLastUserQueried, EvictProvider evictProvider);
+    @LifeCache(duration = 2, timeUnit = TimeUnit.MINUTES)
+    Observable<Reply<BaseEntity<UserBean>>> login(Observable<BaseEntity<UserBean>> user, DynamicKey name, DynamicKey password);
 }

@@ -3,14 +3,17 @@ package whzl.com.ykzfapp.mvp.model;
 import android.app.Application;
 
 import com.google.gson.Gson;
+import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 
-import com.jess.arms.di.scope.ActivityScope;
-
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import whzl.com.ykzfapp.bean.BaseEntity;
+import whzl.com.ykzfapp.bean.UserBean;
 import whzl.com.ykzfapp.mvp.contract.LoginContract;
+import whzl.com.ykzfapp.mvp.model.api.service.UserService;
 
 
 @ActivityScope
@@ -32,4 +35,12 @@ public class LoginModel extends BaseModel implements LoginContract.Model {
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<BaseEntity<UserBean>> getUsers(String name, String password) {
+        return mRepositoryManager
+                .obtainRetrofitService(UserService.class)
+                .login(name, password);
+
+
+    }
 }

@@ -15,7 +15,13 @@
   */
 package whzl.com.ykzfapp.mvp.model.api.service;
 
+import io.reactivex.Observable;
 import retrofit2.Retrofit;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Query;
+import whzl.com.ykzfapp.bean.BaseEntity;
+import whzl.com.ykzfapp.bean.UserBean;
 
 /**
  * ================================================
@@ -28,9 +34,10 @@ import retrofit2.Retrofit;
  * ================================================
  */
 public interface UserService {
-    String HEADER_API_VERSION = "Accept: application/vnd.github.v3+json";
 
-    //@Headers({HEADER_API_VERSION})
-  //  @GET("/users")
-   // Observable<List<User>> getUsers(@Query("since") int lastIdQueried, @Query("per_page") int perPage);
+    String HEADER_API_VERSION = "Accept: application/json";
+
+    @Headers({HEADER_API_VERSION})
+    @GET("ykzfInterface/userAction_login.do")
+    Observable<BaseEntity<UserBean>> login(@Query("name") String name, @Query("password") String pwd);
 }

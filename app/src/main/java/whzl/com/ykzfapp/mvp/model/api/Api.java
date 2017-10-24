@@ -25,6 +25,6 @@ package whzl.com.ykzfapp.mvp.model.api;
  * ================================================
  */
 public interface Api {
-    String APP_DOMAIN = "https://api.github.com";
+    String APP_DOMAIN = "http://192.168.16.203:8080/";
     String RequestSuccess = "0";
 }

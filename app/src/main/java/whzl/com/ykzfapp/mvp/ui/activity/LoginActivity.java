@@ -3,19 +3,25 @@ package whzl.com.ykzfapp.mvp.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
 
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import butterknife.BindView;
+import whzl.com.ykzfapp.R;
+import whzl.com.ykzfapp.bean.BaseEntity;
+import whzl.com.ykzfapp.bean.UserBean;
 import whzl.com.ykzfapp.di.component.DaggerLoginComponent;
 import whzl.com.ykzfapp.di.module.LoginModule;
 import whzl.com.ykzfapp.mvp.contract.LoginContract;
 import whzl.com.ykzfapp.mvp.presenter.LoginPresenter;
-
-import whzl.com.ykzfapp.R;
-
+import whzl.com.ykzfapp.utils.ACache;
+import whzl.com.ykzfapp.utils.ToastUtil;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 
@@ -23,7 +29,12 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * @author my creat at 2017-10-22
  */
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
-
+    private boolean isFirstLogin;
+    ACache mCache;
+    @BindView(R.id.username)
+    AutoCompleteTextView username;
+    @BindView(R.id.password)
+    EditText password;
 
     @Override
     public void setupActivityComponent(AppComponent appComponent) {
@@ -42,6 +53,23 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        mCache = ACache.get(LoginActivity.this);
+        String name,password;
+        try {
+
+            isFirstLogin=true;
+            name =  mCache.getAsString("name");
+            password=mCache.getAsString("password");
+            if (name!=null && password!=null){
+                isFirstLogin=false;
+                mPresenter.login(name, password);
+            }
+
+        } catch (Exception e) {
+            isFirstLogin=true;
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -75,6 +103,44 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
 
     public void AmtempToLogin(View view) {
-        startActivity(new Intent(LoginActivity.this,StateUpdateActivity.class));
+        if (TextUtils.isEmpty(username.getText().toString().trim())){
+            ToastUtil.show(this,"用户名不能为空");
+
+            return;
+        }
+        if (TextUtils.isEmpty(password.getText().toString().trim())){
+            ToastUtil.show(this,"密码不能为空");
+
+            return;
+        }
+
+            mPresenter.login(username.getText().toString().trim(), password.getText().toString().trim());
+        //startActivity(new Intent(LoginActivity.this,StateUpdateActivity.class));
     }
+
+    @Override
+    public void loginSuccess(@NonNull BaseEntity<UserBean> userBaseEntity) {
+
+        mCache.put(getString(R.string.user_bean), userBaseEntity.getObj());
+        if (isFirstLogin) {
+            mCache.put("name", username.getText().toString().trim());
+            mCache.put("password", password.getText().toString().trim());
+        }
+        ToastUtil.show(LoginActivity.this, getString(R.string.login_success));
+        startActivity(new Intent(LoginActivity.this, StateUpdateActivity.class));
+        this.finish();
+
+    }
+
+    @Override
+    public void loginError() {
+        ToastUtil.show(this,"用户名或者密码错误");
+    }
+
+    @Override
+    public void logoutSuccess() {
+
+    }
+
+
 }
