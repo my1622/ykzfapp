@@ -46,7 +46,11 @@
             android:name="whzl.com.ykzfapp.app.GlobalConfiguration"
             android:value="ConfigModule" />
 
-        <activity android:name=".mvp.ui.activity.MainActivity" />
+        <activity android:name=".mvp.ui.activity.MainActivity"
+            android:configChanges="keyboard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
         <activity android:name=".mvp.ui.activity.HouseDetailActivity" />
         <activity android:name=".mvp.ui.activity.StateUpdateActivity" />
         <activity android:name=".mvp.ui.activity.FollowUpActivity" />

@@ -3,6 +3,7 @@ package whzl.com.ykzfapp.mvp.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,14 @@ import whzl.com.ykzfapp.di.component.DaggerMineComponent;
 import whzl.com.ykzfapp.di.module.MineModule;
 import whzl.com.ykzfapp.mvp.contract.MineContract;
 import whzl.com.ykzfapp.mvp.presenter.MinePresenter;
+import whzl.com.ykzfapp.mvp.ui.activity.LoginActivity;
 import whzl.com.ykzfapp.mvp.ui.widget.WaveView3;
+import whzl.com.ykzfapp.utils.ACache;
 import whzl.com.ykzfapp.utils.ToastUtil;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
+import static whzl.com.ykzfapp.utils.DataCleanManager.clearAllCache;
+import static whzl.com.ykzfapp.utils.DataCleanManager.getTotalCacheSize;
 
 
 public class MineFragment extends BaseFragment<MinePresenter> implements MineContract.View {
@@ -48,18 +53,52 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view=inflater.inflate(R.layout.fragment_mine, container, false);
         Toolbar mToolbar = view.findViewById(R.id.toolbar_me);
         mToolbar.setNavigationIcon(R.drawable.ico_clean);
         mToolbar.inflateMenu(R.menu.toolbar_menu_me);
         mToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.logout) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                dialog.setTitle("确认退出登录？")
+                        .setNegativeButton("取消", (dialog1, which) -> {
 
-                    //toLogin();
-                ToastUtil.show(getContext(),"tuichu");
+                        })
+                        .setPositiveButton("退出登录", (dialog12, which) -> {
+
+                            //mPresenter.logout();
+                            ACache aCache = ACache.get(getContext());
+                            aCache.clear();
+                            getActivity().finish();
+                            startActivity(new Intent(getContext(), LoginActivity.class));
+
+                        }).show();
+
 
             }
             return true;
+        });
+
+        mToolbar.setNavigationOnClickListener(v -> {
+
+            try {
+                String cacheSize=getTotalCacheSize(getContext());
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+            dialog.setTitle("提示")
+                    .setMessage("缓存大小为"+cacheSize+"，确定要清理缓存么？")
+                    .setNegativeButton("取消", (dialog1, which) -> {
+
+                    })
+                    .setPositiveButton("确定", (dialog12, which) -> {
+                        clearAllCache(getContext());
+
+                    }).show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         });
         return view;
     }
@@ -115,4 +154,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
 
     }
 
+    @Override
+    public void logoutSuccess() {
+        ToastUtil.show(getContext(),"您已退出");
+
+    }
 }

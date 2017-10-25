@@ -40,4 +40,7 @@ public interface UserService {
     @Headers({HEADER_API_VERSION})
     @GET("ykzfInterface/userAction_login.do")
     Observable<BaseEntity<UserBean>> login(@Query("name") String name, @Query("password") String pwd);
+
+    @GET("ykzfInterface/userAction_logout.do")
+    Observable<BaseEntity<String>> logout();
 }
