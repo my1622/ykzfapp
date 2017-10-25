@@ -4,7 +4,6 @@ import com.jess.arms.di.scope.ActivityScope;
 
 import dagger.Module;
 import dagger.Provides;
-
 import whzl.com.ykzfapp.mvp.contract.TodoHListContract;
 import whzl.com.ykzfapp.mvp.model.TodoHListModel;
 
@@ -33,4 +32,7 @@ public class TodoHListModule {
     TodoHListContract.Model provideTodoHListModel(TodoHListModel model) {
         return model;
     }
+
+
+
 }

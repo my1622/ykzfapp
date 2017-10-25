@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="未找到符合条件的结果"
+        android:gravity="center"
+        android:visibility="gone"/>
+    <com.xiaosu.pulllayout.SimplePullLayout
+        android:id="@+id/mFilterContentView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycle_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/gray"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical" >
+
+    </android.support.v7.widget.RecyclerView>
+    </com.xiaosu.pulllayout.SimplePullLayout>
+
+
+</LinearLayout>
