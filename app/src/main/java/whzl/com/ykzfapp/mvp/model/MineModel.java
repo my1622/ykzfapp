@@ -7,11 +7,15 @@ import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import whzl.com.ykzfapp.bean.BaseEntity;
+import whzl.com.ykzfapp.bean.HouseListBean;
 import whzl.com.ykzfapp.mvp.contract.MineContract;
+import whzl.com.ykzfapp.mvp.model.api.service.CommonService;
 import whzl.com.ykzfapp.mvp.model.api.service.UserService;
 
 
@@ -43,5 +47,12 @@ public class MineModel extends BaseModel implements MineContract.Model {
 
 
 
+    }
+
+    @Override
+    public Observable<BaseEntity<List<HouseListBean>>> listHouseForAgent(String name, String password, String pageNum, String rows) {
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .listHouseForAgent(name, password,pageNum,rows);
     }
 }

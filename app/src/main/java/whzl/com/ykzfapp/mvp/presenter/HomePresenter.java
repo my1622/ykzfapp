@@ -20,6 +20,7 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 import whzl.com.ykzfapp.bean.BaseEntity;
 import whzl.com.ykzfapp.bean.DictionaryBean;
+import whzl.com.ykzfapp.bean.HouseListBean;
 import whzl.com.ykzfapp.mvp.contract.HomeContract;
 
 
@@ -66,6 +67,30 @@ public class HomePresenter extends BasePresenter<HomeContract.Model, HomeContrac
                     public void onNext(@NonNull BaseEntity<List<DictionaryBean>> dictionaryBeanBaseEntity) {
                         mRootView.dictionarySuccess(dictionaryBeanBaseEntity.getObj());
 
+                    }
+                });
+    }
+
+    public void requestData(String title,String region,String salePrice,String bedRooms,String area,int page) {
+
+        mModel.listHouse(title,region,salePrice,bedRooms,area, String.valueOf(page), "6")
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))
+                .doOnSubscribe(disposable -> {
+
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(() -> {
+
+                })
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))//使用Rxlifecycle,使Disposable和Activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<BaseEntity<List<HouseListBean>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(@NonNull BaseEntity<List<HouseListBean>> listBaseEntity) {
+                        if (listBaseEntity.getObj().size() == 0) {
+                        }
+                        mRootView.showHListData(listBaseEntity.getObj());
                     }
                 });
     }

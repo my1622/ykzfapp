@@ -10,7 +10,11 @@ import com.jess.arms.di.scope.ActivityScope;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import whzl.com.ykzfapp.bean.BaseEntity;
+import whzl.com.ykzfapp.bean.HouseDetailBean;
 import whzl.com.ykzfapp.mvp.contract.HouseDetailContract;
+import whzl.com.ykzfapp.mvp.model.api.service.CommonService;
 
 
 @ActivityScope
@@ -32,4 +36,10 @@ public class HouseDetailModel extends BaseModel implements HouseDetailContract.M
         this.mApplication = null;
     }
 
+    @Override
+    public Observable<BaseEntity<HouseDetailBean>> requestData(String houseId) {
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .getHouseDetail(houseId);
+    }
 }

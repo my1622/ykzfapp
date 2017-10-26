@@ -53,7 +53,7 @@ public class TodoHListPresenter extends BasePresenter<TodoHListContract.Model, T
         mRootView.setAdapter(mAdapter);//设置Adapter
         */
 
-        mModel.listHouseByUser(name,password,String.valueOf(page),"6")
+        mModel.listHouseByUser(name,password,String.valueOf(page),"10")
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))
                 .doOnSubscribe(disposable -> {

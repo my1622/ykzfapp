@@ -33,6 +33,7 @@
 
 
             <ImageView
+                android:layout_marginLeft="@dimen/dp_10"
                 android:id="@+id/first_pic"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
@@ -74,6 +75,7 @@
                         android:gravity="end"
                         >
                         <TextView
+                            android:id="@+id/text_pub"
                             android:visibility="gone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -192,10 +194,11 @@
 
                 <Button
                     android:id="@+id/btn_modify"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="25dp"
                     android:background="@drawable/selector_circle_corner_button"
-                    android:text="完善" />
+                    android:text="完善"
+                    android:layout_marginRight="@dimen/dp_10"/>
 
                 <Button
 
@@ -204,15 +207,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="25dp"
                     android:background="@drawable/selector_circle_corner_button"
-                    android:text="房源状态" />
+                    android:text="房源状态"
+                    android:layout_marginRight="@dimen/dp_10"/>
 
                 <Button
                     android:visibility="gone"
                     android:id="@+id/btn_updata"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="25dp"
                     android:background="@drawable/selector_circle_corner_button"
-                    android:text="跟进" />
+                    android:text="跟进"
+                    android:layout_marginRight="@dimen/dp_10"/>
 
             </LinearLayout>
         </LinearLayout>

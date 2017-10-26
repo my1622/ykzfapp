@@ -15,7 +15,7 @@ import whzl.com.ykzfapp.mvp.ui.widget.GlideTool;
  * Created by Administrator on 2017/7/4.
  */
 
-public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHolder> {
+public class HomeListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHolder> {
 
 
     private Builder mBuilder;
@@ -24,8 +24,8 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
     public static class Builder {
 
         private int layoutId = R.layout.templete_todo_house_cardview;
-        public HouseListAdapter build() {
-            return new HouseListAdapter(this);
+        public HomeListAdapter build() {
+            return new HomeListAdapter(this);
         }
         Context mContext;
         public Builder layout(int resId) {
@@ -40,7 +40,7 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
         }
     }
 
-    private HouseListAdapter(Builder builder) {
+    private HomeListAdapter(Builder builder) {
         super(builder.layoutId);
         this.mBuilder = builder;
 
@@ -55,8 +55,8 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
 
     @Override
     protected void convert(BaseViewHolder helper, HouseListBean item) {
-        ImageView mAvater=helper.getView(R.id.first_pic);
 
+        ImageView mAvater=helper.getView(R.id.first_pic);
         GlideTool
                 .showImage(Api.APP_DOMAIN+item.getFirstPic()
                         ,mAvater,null);
@@ -89,6 +89,13 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
         }
 
         helper.setText(R.id.text_sale_price, Float.valueOf(item.getSalePrice())+"");
+
+
+        helper.setVisible(R.id.btn_modify, false);
+        helper.setText(R.id.btn_updata, "跟进");
+        helper.setText(R.id.btn_delete, "房源状态");
+        helper.setVisible(R.id.btn_updata, true);
+        helper.setVisible(R.id.btn_delete, true);
        /* helper.setText(R.id.text_title, item.getHousetitle()+item.getCommName()+"-"+item.getRentalMode());
         helper.setText(R.id.text_rent, item.getRent());
         helper.setText(R.id.text_audit_status, getStatus(item.getAuditstatus()));

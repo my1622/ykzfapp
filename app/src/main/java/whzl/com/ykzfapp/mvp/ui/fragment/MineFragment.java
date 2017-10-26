@@ -4,23 +4,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.jess.arms.base.BaseFragment;
+import com.jess.arms.base.DefaultAdapter;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.xiaosu.pulllayout.SimplePullLayout;
+import com.xiaosu.pulllayout.base.BasePullLayout;
+
+import java.util.List;
 
 import butterknife.BindView;
 import whzl.com.ykzfapp.R;
+import whzl.com.ykzfapp.bean.HouseListBean;
+import whzl.com.ykzfapp.bean.UserBean;
 import whzl.com.ykzfapp.di.component.DaggerMineComponent;
 import whzl.com.ykzfapp.di.module.MineModule;
 import whzl.com.ykzfapp.mvp.contract.MineContract;
 import whzl.com.ykzfapp.mvp.presenter.MinePresenter;
 import whzl.com.ykzfapp.mvp.ui.activity.LoginActivity;
-import whzl.com.ykzfapp.mvp.ui.widget.WaveView3;
+import whzl.com.ykzfapp.mvp.ui.adapter.MyHouListAdapter;
 import whzl.com.ykzfapp.utils.ACache;
 import whzl.com.ykzfapp.utils.ToastUtil;
 
@@ -30,10 +40,26 @@ import static whzl.com.ykzfapp.utils.DataCleanManager.getTotalCacheSize;
 
 
 public class MineFragment extends BaseFragment<MinePresenter> implements MineContract.View {
-    @BindView(R.id.wave_view)
-    WaveView3 waveView3;
 
+    @BindView(R.id.tv_no_data)
+    TextView tvNoData;
+    @BindView(R.id.recycle_view)
+    RecyclerView mRecyclerView;
+    @BindView(R.id.mFilterContentView)
+    SimplePullLayout mFilterContentView;
 
+    ACache mCache;
+    MyHouListAdapter mAdatper;
+    @BindView(R.id.text_dept_name)
+    TextView textDeptName;
+    @BindView(R.id.text_full_name)
+    TextView textFullName;
+    @BindView(R.id.text_group_name)
+    TextView textGroupName;
+
+    private int page;
+    private UserBean userBean;
+    private boolean pullToRefresh = true;
 
 
     public static MineFragment newInstance() {
@@ -54,7 +80,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view=inflater.inflate(R.layout.fragment_mine, container, false);
+        View view = inflater.inflate(R.layout.fragment_mine, container, false);
         Toolbar mToolbar = view.findViewById(R.id.toolbar_me);
         mToolbar.setNavigationIcon(R.drawable.ico_clean);
         mToolbar.inflateMenu(R.menu.toolbar_menu_me);
@@ -83,18 +109,19 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
         mToolbar.setNavigationOnClickListener(v -> {
 
             try {
-                String cacheSize=getTotalCacheSize(getContext());
+                String cacheSize = getTotalCacheSize(getContext());
 
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-            dialog.setTitle("提示")
-                    .setMessage("缓存大小为"+cacheSize+"，确定要清理缓存么？")
-                    .setNegativeButton("取消", (dialog1, which) -> {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                dialog.setTitle("提示")
+                        .setMessage("缓存大小为" + cacheSize + "，确定要清理缓存么？")
+                        .setNegativeButton("取消", (dialog1, which) -> {
 
-                    })
-                    .setPositiveButton("确定", (dialog12, which) -> {
-                        clearAllCache(getContext());
+                        })
+                        .setPositiveButton("确定", (dialog12, which) -> {
+                            clearAllCache(getContext());
+                            //cleanGlideDiskCache();
 
-                    }).show();
+                        }).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -105,7 +132,66 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        mCache = ACache.get(getContext());
+        userBean = (UserBean) mCache.getAsObject(getString(R.string.user_bean));
 
+        initUser();
+        initRecycleView();
+
+
+        ArmsUtils.configRecycleView(mRecyclerView, new LinearLayoutManager(getActivity()));
+
+
+    }
+
+    private void initUser() {
+        textDeptName.setText(userBean.getDeptName());
+        textFullName.setText(userBean.getFullName());
+        textGroupName.setText(userBean.getGroupName());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdatper.setEnableLoadMore(true);
+        freshHouseList();
+
+    }
+
+    private void freshHouseList() {
+
+        page = 1;
+        getData();
+    }
+
+    protected void getData() {
+        mPresenter.requestData(userBean.getName(), userBean.getPassword(), page);
+    }
+
+    private void initRecycleView() {
+        mFilterContentView.setOnPullListener(new BasePullLayout.OnPullCallBackListener() {
+            @Override
+            public void onRefresh() {
+                pullToRefresh = true;
+                freshHouseList();
+            }
+
+            @Override
+            public void onLoad() {
+                pullToRefresh = false;
+                page++;
+                getData();
+
+            }
+        });
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdatper = MyHouListAdapter
+
+                .builder()
+                .setContext(getContext())
+                .build();
+
+        mRecyclerView.setAdapter(mAdatper);
 
     }
 
@@ -156,7 +242,41 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
 
     @Override
     public void logoutSuccess() {
-        ToastUtil.show(getContext(),"您已退出");
+        ToastUtil.show(getContext(), "您已退出");
 
     }
+
+    @Override
+    public void showHListData(List<HouseListBean> datas) {
+        if (pullToRefresh) {
+            mAdatper.getData().clear();
+        }
+        mAdatper.notifyDataSetChanged();
+
+        if (page == 1 && datas.size() == 0) {
+            tvNoData.setVisibility(View.VISIBLE);
+        }else{
+            tvNoData.setVisibility(View.GONE);
+        }
+
+        if (datas.size() != 0) {
+            mFilterContentView.finishPull("加载成功", true);
+            mAdatper.addData(datas);
+
+        } else {
+            mAdatper.setEnableLoadMore(false);
+            mFilterContentView.finishPull("没有更多数据了", true);
+            /// ToastUtil.show(getContext(),"未找到符合条件的结果！");
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+
+        DefaultAdapter.releaseAllHolder(mRecyclerView);//super.onDestroy()之后会unbind,所有view被置为null,所以必须在之前调用
+        super.onDestroy();
+    }
+
+
+
 }

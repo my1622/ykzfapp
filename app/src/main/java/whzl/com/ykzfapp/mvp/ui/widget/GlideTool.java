@@ -2,6 +2,7 @@ package whzl.com.ykzfapp.mvp.ui.widget;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -51,6 +52,22 @@ public class GlideTool {
                 .circleCrop();//使用.placeholder()方法在某些情况下会导致图片显示的时候出现图片变形的情况
         Glide.with(tmpContext).setDefaultRequestOptions(options).load(imgUrl).into(imageView);
     }
+    public static void cleanGlideDiskCache(){
+        new AsyncTask<Void,Void,Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                // This method must be called on a background thread.
+                Context tmpContext = null;
+                tmpContext = AppApplication.getAppContext();
+                Glide.get(tmpContext).clearMemory();
+                Glide.get(tmpContext).clearDiskCache();
+                return null;
+            }
+        };
+
+    }
+
 
     /*public static void showCircleCornerImage(String imgUrl, ImageView imageView, Activity activity, int rote){
         Context tmpContext = null;

@@ -35,7 +35,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
         implements TodoHListContract.View {
-    ACache mCache;
+
 
     @BindView(R.id.tv_no_data)
     TextView tvNoData;
@@ -44,12 +44,11 @@ public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
     @BindView(R.id.mFilterContentView)
     SimplePullLayout mFilterContentView;
 
-
+    ACache mCache;
     HouseListAdapter mAdatper;
-
     private int page;
     private UserBean userBean;
-    private List<HouseListBean> mdatas;
+    private boolean pullToRefresh=true;
 
     public static TodoHListFragment newInstance() {
         TodoHListFragment fragment = new TodoHListFragment();
@@ -98,7 +97,7 @@ public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
     }
 
     private void freshHouseList() {
-        mAdatper.getData().clear();
+
         page = 1;
         getData();
     }
@@ -107,11 +106,13 @@ public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
         mFilterContentView.setOnPullListener(new BasePullLayout.OnPullCallBackListener() {
             @Override
             public void onRefresh() {
+                pullToRefresh=true;
                 freshHouseList();
             }
 
             @Override
             public void onLoad() {
+                pullToRefresh=false;
                     page++;
                     getData();
 
@@ -158,8 +159,16 @@ public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
 
     @Override
     public void showHListData(List<HouseListBean> datas) {
+        if (pullToRefresh){
+            mAdatper.getData().clear();
+        }
         mAdatper.notifyDataSetChanged();
-        mdatas=datas;
+
+        if (page==1&&datas.size()==0){
+            tvNoData.setVisibility(View.VISIBLE);
+        }else{
+            tvNoData.setVisibility(View.GONE);
+        }
 
         if (datas.size() != 0) {
             mFilterContentView.finishPull("加载成功", true);
@@ -182,8 +191,8 @@ public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
     }
     @Override
     public void onDestroy() {
-        super.onDestroy();
-        DefaultAdapter.releaseAllHolder(mRecyclerView);//super.onDestroy()之后会unbind,所有view被置为null,所以必须在之前调用
 
+        DefaultAdapter.releaseAllHolder(mRecyclerView);//super.onDestroy()之后会unbind,所有view被置为null,所以必须在之前调用
+        super.onDestroy();
     }
 }

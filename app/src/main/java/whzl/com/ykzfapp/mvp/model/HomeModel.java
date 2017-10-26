@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import whzl.com.ykzfapp.bean.BaseEntity;
 import whzl.com.ykzfapp.bean.DictionaryBean;
+import whzl.com.ykzfapp.bean.HouseListBean;
 import whzl.com.ykzfapp.mvp.contract.HomeContract;
 import whzl.com.ykzfapp.mvp.model.api.service.CommonService;
 
@@ -42,7 +43,12 @@ public class HomeModel extends BaseModel implements HomeContract.Model {
         return mRepositoryManager
                 .obtainRetrofitService(CommonService.class)
                 .getDictionary();
+    }
 
-
+    @Override
+    public Observable<BaseEntity<List<HouseListBean>>> listHouse(String title, String region, String salePrice, String bedRooms, String area, String pageNum, String rows) {
+        return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .listHouse(title,region,salePrice,bedRooms,area,pageNum,rows);
     }
 }

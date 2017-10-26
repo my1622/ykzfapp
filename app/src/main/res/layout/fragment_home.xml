@@ -22,22 +22,41 @@
         android:id="@+id/dropDownMenu"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <android.support.v4.widget.SwipeRefreshLayout
+        <FrameLayout
             android:id="@+id/mFilterContentView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="15px"
-            android:paddingTop="15px"
-            >
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <com.xiaosu.pulllayout.SimplePullLayout
+            android:id="@+id/simple_pullLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycle_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray"
+                    android:clipToPadding="false"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbars="vertical"
+                    tools:listitem="@layout/templete_todo_house_cardview">
+
+                </android.support.v7.widget.RecyclerView>
+
+
+
+
+
+
+        </com.xiaosu.pulllayout.SimplePullLayout>
+            <TextView
+                android:id="@+id/tv_no_data"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="vertical"
-                tools:listitem="@layout/templete_todo_house_cardview"
-                />
-
-        </android.support.v4.widget.SwipeRefreshLayout>
+                android:text="未找到符合条件的结果"
+                android:gravity="center"
+                android:visibility="gone"/>
+        </FrameLayout>
     </com.baiiu.filter.DropDownMenu>
 </LinearLayout>

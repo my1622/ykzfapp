@@ -15,7 +15,7 @@ import whzl.com.ykzfapp.mvp.ui.widget.GlideTool;
  * Created by Administrator on 2017/7/4.
  */
 
-public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHolder> {
+public class MyHouListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHolder> {
 
 
     private Builder mBuilder;
@@ -24,8 +24,8 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
     public static class Builder {
 
         private int layoutId = R.layout.templete_todo_house_cardview;
-        public HouseListAdapter build() {
-            return new HouseListAdapter(this);
+        public MyHouListAdapter build() {
+            return new MyHouListAdapter(this);
         }
         Context mContext;
         public Builder layout(int resId) {
@@ -40,7 +40,7 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
         }
     }
 
-    private HouseListAdapter(Builder builder) {
+    private MyHouListAdapter(Builder builder) {
         super(builder.layoutId);
         this.mBuilder = builder;
 
@@ -89,6 +89,14 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
         }
 
         helper.setText(R.id.text_sale_price, Float.valueOf(item.getSalePrice())+"");
+
+        helper.setVisible(R.id.text_pub, true);
+        helper.setText(R.id.text_pub, getReleaseStatus(item.getReleasedStatus()));
+        helper.setText(R.id.btn_modify, "修改");
+        helper.setText(R.id.btn_updata, "跟进");
+        helper.setText(R.id.btn_delete, "房源状态");
+        helper.setVisible(R.id.btn_updata, true);
+        helper.setVisible(R.id.btn_delete, true);
        /* helper.setText(R.id.text_title, item.getHousetitle()+item.getCommName()+"-"+item.getRentalMode());
         helper.setText(R.id.text_rent, item.getRent());
         helper.setText(R.id.text_audit_status, getStatus(item.getAuditstatus()));
@@ -112,5 +120,24 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
 
 
     }
+    private String getReleaseStatus(String releasedStatus) {
+        if ("101".equals(releasedStatus)) {
+            return "待发布";
+        } else if ("102".equals(releasedStatus)) {
+            return "已发布";
+
+        } else if ("102".equals(releasedStatus)) {
+            return "已发布";
+
+        } else if ("103".equals(releasedStatus)) {
+            return "再次发布";
+
+        } else if ("104".equals(releasedStatus)) {
+            return "取消发布";
+
+        }
+        return "";
+    }
+
 
 }

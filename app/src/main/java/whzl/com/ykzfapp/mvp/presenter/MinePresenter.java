@@ -8,6 +8,8 @@ import com.jess.arms.integration.AppManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxLifecycleUtils;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -17,6 +19,7 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 import whzl.com.ykzfapp.bean.BaseEntity;
+import whzl.com.ykzfapp.bean.HouseListBean;
 import whzl.com.ykzfapp.mvp.contract.MineContract;
 
 
@@ -66,6 +69,29 @@ public class MinePresenter extends BasePresenter<MineContract.Model, MineContrac
                     }
                 });
 
+    }
+    public void requestData(String name,String password,int page) {
+
+        mModel.listHouseForAgent(name, password, String.valueOf(page), "6")
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))
+                .doOnSubscribe(disposable -> {
+
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(() -> {
+
+                })
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))//使用Rxlifecycle,使Disposable和Activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<BaseEntity<List<HouseListBean>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(@NonNull BaseEntity<List<HouseListBean>> listBaseEntity) {
+                        if (listBaseEntity.getObj().size() == 0) {
+                        }
+                        mRootView.showHListData(listBaseEntity.getObj());
+                    }
+                });
     }
 
 }

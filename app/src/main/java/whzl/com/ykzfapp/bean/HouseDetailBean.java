@@ -3,13 +3,40 @@ package whzl.com.ykzfapp.bean;
 import java.util.List;
 
 /**
- * Created by my on 2017/10/25.
+ * Created by my on 2017/10/26.
  */
 
-public class HouseListBean extends BaseBean{
+public class HouseDetailBean extends BaseBean {
+
+    public String getServiceCharge() {
+        return serviceCharge;
+    }
+
+    public void setServiceCharge(String serviceCharge) {
+        this.serviceCharge = serviceCharge;
+    }
+
+    public void setArea(float area) {
+        this.area = area;
+    }
+
+    public void setSalePrice(float salePrice) {
+        this.salePrice = salePrice;
+    }
+
+    public void setUnitPrice(float unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public String getAgencyFee() {
+        return agencyFee;
+    }
+
+    public void setAgencyFee(String agencyFee) {
+        this.agencyFee = agencyFee;
+    }
 
     /**
-     * agencyFee :
      * agentFullName : 管理员
      * agentTel :
      * agentUserId : 1
@@ -39,7 +66,10 @@ public class HouseListBean extends BaseBean{
      * disStoreName : 软件公司
      * firstPic : /pmFile/image/20171020/1508490136865.png
      * fitmentType : 101
+     * fyOutPath : /pmFile/image/20170909/20170909134415_810.jpg,/pmFile/image/20170909/20170909134415_145.jpg
+     * fyPath : /pmFile/image/20171020/1508490136865.png,/pmFile/image/20171020/1508490136865.png,/pmFile/image/20171020/1508490136865.png
      * houseType : 101
+     * hxPath : /pmFile/image/20170909/20170909134424_65.jpg,/pmFile/image/20170909/20170909134424_203.jpg
      * id : 855
      * infoState : 104
      * infoStateUserId : 0
@@ -58,7 +88,6 @@ public class HouseListBean extends BaseBean{
      * roomNo : 1
      * salePrice : 666
      * salesmanRemarks : 经纪人备注
-     * serviceCharge :
      * sourceType : 101
      * tags : 101
      * tagsArray : ["学区房"]
@@ -71,12 +100,15 @@ public class HouseListBean extends BaseBean{
      * unitPrice : 555
      * updatedBy : 管理员
      * updatedOn : 2017-10-20 00:00
-     * viewTimes : 38
+     * videoPath :
+     * viewTimes : 59
+     * voicePath :
      * year : 0-2
      * yearLimit : 222
      */
-
     private String agencyFee;
+
+    private String serviceCharge;
     private String agentFullName;
     private String agentTel;
     private int agentUserId;
@@ -106,7 +138,10 @@ public class HouseListBean extends BaseBean{
     private String disStoreName;
     private String firstPic;
     private String fitmentType;
+    private String fyOutPath;
+    private String fyPath;
     private String houseType;
+    private String hxPath;
     private int id;
     private String infoState;
     private int infoStateUserId;
@@ -125,7 +160,6 @@ public class HouseListBean extends BaseBean{
     private String roomNo;
     private float salePrice;
     private String salesmanRemarks;
-    private String serviceCharge;
     private String sourceType;
     private String tags;
     private String title;
@@ -137,18 +171,12 @@ public class HouseListBean extends BaseBean{
     private float unitPrice;
     private String updatedBy;
     private String updatedOn;
+    private String videoPath;
     private int viewTimes;
+    private String voicePath;
     private String year;
     private int yearLimit;
     private List<String> tagsArray;
-
-    public String getAgencyFee() {
-        return agencyFee;
-    }
-
-    public void setAgencyFee(String agencyFee) {
-        this.agencyFee = agencyFee;
-    }
 
     public String getAgentFullName() {
         return agentFullName;
@@ -382,12 +410,36 @@ public class HouseListBean extends BaseBean{
         this.fitmentType = fitmentType;
     }
 
+    public String getFyOutPath() {
+        return fyOutPath;
+    }
+
+    public void setFyOutPath(String fyOutPath) {
+        this.fyOutPath = fyOutPath;
+    }
+
+    public String getFyPath() {
+        return fyPath;
+    }
+
+    public void setFyPath(String fyPath) {
+        this.fyPath = fyPath;
+    }
+
     public String getHouseType() {
         return houseType;
     }
 
     public void setHouseType(String houseType) {
         this.houseType = houseType;
+    }
+
+    public String getHxPath() {
+        return hxPath;
+    }
+
+    public void setHxPath(String hxPath) {
+        this.hxPath = hxPath;
     }
 
     public int getId() {
@@ -534,14 +586,6 @@ public class HouseListBean extends BaseBean{
         this.salesmanRemarks = salesmanRemarks;
     }
 
-    public String getServiceCharge() {
-        return serviceCharge;
-    }
-
-    public void setServiceCharge(String serviceCharge) {
-        this.serviceCharge = serviceCharge;
-    }
-
     public String getSourceType() {
         return sourceType;
     }
@@ -630,12 +674,28 @@ public class HouseListBean extends BaseBean{
         this.updatedOn = updatedOn;
     }
 
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
+    }
+
     public int getViewTimes() {
         return viewTimes;
     }
 
     public void setViewTimes(int viewTimes) {
         this.viewTimes = viewTimes;
+    }
+
+    public String getVoicePath() {
+        return voicePath;
+    }
+
+    public void setVoicePath(String voicePath) {
+        this.voicePath = voicePath;
     }
 
     public String getYear() {

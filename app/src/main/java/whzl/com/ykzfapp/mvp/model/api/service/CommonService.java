@@ -22,6 +22,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 import whzl.com.ykzfapp.bean.BaseEntity;
 import whzl.com.ykzfapp.bean.DictionaryBean;
+import whzl.com.ykzfapp.bean.HouseDetailBean;
 import whzl.com.ykzfapp.bean.HouseListBean;
 
 /**
@@ -39,7 +40,20 @@ public interface CommonService {
     @GET("ykzfInterface/dictionaryAction_listDictionary.do")
     Observable<BaseEntity<List<DictionaryBean>>> getDictionary();
 
+    @GET("ykzfInterface/houseAction_detailHouse.do")
+    Observable<BaseEntity<HouseDetailBean>> getHouseDetail(@Query("house.id") String id);
+
     @GET("ykzfInterface/houseAction_listHouseByUser.do")
-    Observable<BaseEntity<List<HouseListBean>>> listHouseByUser(@Query("name") String name,@Query("password")  String password,@Query("pageNum") String pageNum,@Query("rows")  String rows);
+    Observable<BaseEntity<List<HouseListBean>>> listHouseByUser(@Query("loginName") String name,@Query("loginPwd")  String password,@Query("pageNum") String pageNum,@Query("rows")  String rows);
+
+    @GET("ykzfInterface/houseAction_listHouseForAgent.do")
+    Observable<BaseEntity<List<HouseListBean>>> listHouseForAgent(@Query("loginName") String name,@Query("loginPwd")  String password,@Query("pageNum") String pageNum,@Query("rows")  String rows);
+
+    @GET("ykzfInterface/houseAction_listHouse.do")
+    Observable<BaseEntity<List<HouseListBean>>> listHouse(
+            @Query("title") String title,@Query("region")  String region,
+            @Query("salePrice") String salePrice,@Query("bedRooms")  String bedRooms,
+            @Query("area") String area,
+            @Query("pageNum") String pageNum,@Query("rows")  String rows);
 
 }
