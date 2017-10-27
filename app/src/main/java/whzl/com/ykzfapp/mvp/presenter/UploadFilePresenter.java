@@ -7,6 +7,9 @@ import com.jess.arms.http.imageloader.ImageLoader;
 import com.jess.arms.integration.AppManager;
 import com.jess.arms.mvp.BasePresenter;
 import com.jess.arms.utils.RxLifecycleUtils;
+import com.luck.picture.lib.entity.LocalMedia;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -17,19 +20,18 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 import whzl.com.ykzfapp.bean.BaseEntity;
-import whzl.com.ykzfapp.bean.HouseDetailBean;
-import whzl.com.ykzfapp.mvp.contract.UpdateHouseContract;
+import whzl.com.ykzfapp.mvp.contract.UploadFileContract;
 
 
 @ActivityScope
-public class UpdateHousePresenter extends BasePresenter<UpdateHouseContract.Model, UpdateHouseContract.View> {
+public class UploadFilePresenter extends BasePresenter<UploadFileContract.Model, UploadFileContract.View> {
     private RxErrorHandler mErrorHandler;
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
 
     @Inject
-    public UpdateHousePresenter(UpdateHouseContract.Model model, UpdateHouseContract.View rootView
+    public UploadFilePresenter(UploadFileContract.Model model, UploadFileContract.View rootView
             , RxErrorHandler handler, Application application
             , ImageLoader imageLoader, AppManager appManager) {
         super(model, rootView);
@@ -47,24 +49,26 @@ public class UpdateHousePresenter extends BasePresenter<UpdateHouseContract.Mode
         this.mImageLoader = null;
         this.mApplication = null;
     }
-    public void requestData(String houseId){
-        mModel.requestData(houseId)
+    public void upLoadFiles(List<LocalMedia> selectList){
+        mModel.upLoadFiles(selectList)
                 .subscribeOn(Schedulers.io())
                 .retryWhen(new RetryWithDelay(3, 2))
                 .doOnSubscribe(disposable -> {
-
+                    mRootView.showLoading();
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doAfterTerminate(() -> {
-
+                    mRootView.hideLoading();
                 })
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))//使用Rxlifecycle,使Disposable和Activity一起销毁
-                .subscribe(new ErrorHandleSubscriber<BaseEntity<HouseDetailBean>>(mErrorHandler) {
+                .subscribe(new ErrorHandleSubscriber<BaseEntity<String>>(mErrorHandler) {
                     @Override
-                    public void onNext(@NonNull BaseEntity<HouseDetailBean> houseDetailBeanBaseEntity) {
-                        mRootView.success(houseDetailBeanBaseEntity.getObj());
+                    public void onNext(@NonNull BaseEntity<String> stringBaseEntity) {
+                        mRootView.success(stringBaseEntity.getObj());
+
                     }
                 });
     }
+
 }

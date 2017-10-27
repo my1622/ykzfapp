@@ -89,6 +89,7 @@ public class HouseListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
         }
 
         helper.setText(R.id.text_sale_price, Float.valueOf(item.getSalePrice())+"");
+        helper.addOnClickListener(R.id.btn_modify);
        /* helper.setText(R.id.text_title, item.getHousetitle()+item.getCommName()+"-"+item.getRentalMode());
         helper.setText(R.id.text_rent, item.getRent());
         helper.setText(R.id.text_audit_status, getStatus(item.getAuditstatus()));

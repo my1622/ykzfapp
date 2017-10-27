@@ -18,18 +18,18 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 import whzl.com.ykzfapp.bean.BaseEntity;
 import whzl.com.ykzfapp.bean.HouseDetailBean;
-import whzl.com.ykzfapp.mvp.contract.UpdateHouseContract;
+import whzl.com.ykzfapp.mvp.contract.DetailHouseContract;
 
 
 @ActivityScope
-public class UpdateHousePresenter extends BasePresenter<UpdateHouseContract.Model, UpdateHouseContract.View> {
+public class DetailHousePresenter extends BasePresenter<DetailHouseContract.Model, DetailHouseContract.View> {
     private RxErrorHandler mErrorHandler;
     private Application mApplication;
     private ImageLoader mImageLoader;
     private AppManager mAppManager;
 
     @Inject
-    public UpdateHousePresenter(UpdateHouseContract.Model model, UpdateHouseContract.View rootView
+    public DetailHousePresenter(DetailHouseContract.Model model, DetailHouseContract.View rootView
             , RxErrorHandler handler, Application application
             , ImageLoader imageLoader, AppManager appManager) {
         super(model, rootView);

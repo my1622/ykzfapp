@@ -12,17 +12,17 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import whzl.com.ykzfapp.bean.BaseEntity;
 import whzl.com.ykzfapp.bean.HouseDetailBean;
-import whzl.com.ykzfapp.mvp.contract.UpdateHouseContract;
+import whzl.com.ykzfapp.mvp.contract.DetailHouseContract;
 import whzl.com.ykzfapp.mvp.model.api.service.CommonService;
 
 
 @ActivityScope
-public class UpdateHouseModel extends BaseModel implements UpdateHouseContract.Model {
+public class DetailHouseModel extends BaseModel implements DetailHouseContract.Model {
     private Gson mGson;
     private Application mApplication;
 
     @Inject
-    public UpdateHouseModel(IRepositoryManager repositoryManager, Gson gson, Application application) {
+    public DetailHouseModel(IRepositoryManager repositoryManager, Gson gson, Application application) {
         super(repositoryManager);
         this.mGson = gson;
         this.mApplication = application;
@@ -40,4 +40,5 @@ public class UpdateHouseModel extends BaseModel implements UpdateHouseContract.M
                 .obtainRetrofitService(CommonService.class)
                 .getHouseDetail(houseId);
     }
+
 }

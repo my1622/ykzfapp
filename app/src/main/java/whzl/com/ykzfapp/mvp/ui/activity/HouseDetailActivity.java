@@ -20,9 +20,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import whzl.com.ykzfapp.R;
-import whzl.com.ykzfapp.bean.DictionaryBean;
 import whzl.com.ykzfapp.bean.HouseDetailBean;
-import whzl.com.ykzfapp.commom.Constant;
 import whzl.com.ykzfapp.di.component.DaggerHouseDetailComponent;
 import whzl.com.ykzfapp.di.module.HouseDetailModule;
 import whzl.com.ykzfapp.mvp.contract.HouseDetailContract;
@@ -38,7 +36,7 @@ import static whzl.com.ykzfapp.commom.Constant.getRegion;
 public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> implements HouseDetailContract.View {
 
 
-    List<DictionaryBean> mDictionary;
+
 
     @BindView(R.id.toolbar_me)
     Toolbar mToolBar;
@@ -115,7 +113,7 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        mDictionary= Constant.DICTIONARY;
+
         houseId = getIntent().getStringExtra("houseId");
         mPresenter.requestData(houseId);
         initToolbar();

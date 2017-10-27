@@ -18,7 +18,10 @@ package whzl.com.ykzfapp.mvp.model.api.service;
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import whzl.com.ykzfapp.bean.BaseEntity;
 import whzl.com.ykzfapp.bean.DictionaryBean;
@@ -39,6 +42,10 @@ public interface CommonService {
 
     @GET("ykzfInterface/dictionaryAction_listDictionary.do")
     Observable<BaseEntity<List<DictionaryBean>>> getDictionary();
+
+    //上传文件
+    @POST("ykzfInterface/uploadAction_doUpload.do")
+    Observable<BaseEntity<String>> upLoadFiles(@Body MultipartBody myfiles);
 
     @GET("ykzfInterface/houseAction_detailHouse.do")
     Observable<BaseEntity<HouseDetailBean>> getHouseDetail(@Query("house.id") String id);

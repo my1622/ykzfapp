@@ -27,6 +27,8 @@ import whzl.com.ykzfapp.di.component.DaggerTodoHListComponent;
 import whzl.com.ykzfapp.di.module.TodoHListModule;
 import whzl.com.ykzfapp.mvp.contract.TodoHListContract;
 import whzl.com.ykzfapp.mvp.presenter.TodoHListPresenter;
+import whzl.com.ykzfapp.mvp.ui.activity.DetailHouseActivity;
+import whzl.com.ykzfapp.mvp.ui.activity.UpdateHouseActivity;
 import whzl.com.ykzfapp.mvp.ui.adapter.HouseListAdapter;
 import whzl.com.ykzfapp.utils.ACache;
 
@@ -36,7 +38,8 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
         implements TodoHListContract.View {
 
-
+    @BindView(R.id.tv_toolbar_title)
+    TextView tvToolbarTitle;
     @BindView(R.id.tv_no_data)
     TextView tvNoData;
     @BindView(R.id.recycle_view)
@@ -67,10 +70,7 @@ public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view=inflater.inflate(R.layout.fragment_todo_hlist, container, false);
-        TextView textView = view.findViewById(R.id.tv_toolbar_title);
-        textView.setText("待完善房源");
         return view;
     }
 
@@ -79,7 +79,6 @@ public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
         mCache = ACache.get(getContext());
         userBean= (UserBean) mCache.getAsObject(getString(R.string.user_bean));
         initRecycleView();
-
         ArmsUtils.configRecycleView(mRecyclerView, new LinearLayoutManager(getActivity()));
 
         //mPresenter.requestData(userBean.getName(), userBean.getPassword(),true);
@@ -126,6 +125,21 @@ public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
                 .build();
 
         mRecyclerView.setAdapter(mAdatper);
+        mAdatper.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(getContext(), DetailHouseActivity.class);
+            intent.putExtra("houseId",String.valueOf(((HouseListAdapter)adapter).getItem(position).getId()));
+            startActivity(intent);
+
+        });
+        mAdatper.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()){
+                case R.id.btn_modify:
+                    Intent intent = new Intent(getContext(), UpdateHouseActivity.class);
+                    intent.putExtra("houseId", String.valueOf(((HouseListAdapter) adapter).getItem(position).getId()));
+                    startActivity(intent);
+                    break;
+            }
+        });
 
     }
 
