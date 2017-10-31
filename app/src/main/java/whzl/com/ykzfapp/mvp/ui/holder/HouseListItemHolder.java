@@ -36,7 +36,7 @@ public class HouseListItemHolder extends BaseHolder<HouseListBean> {
     View divider;
     @BindView(R.id.btn_modify)
     Button btnModify;
-    @BindView(R.id.btn_delete)
+    @BindView(R.id.btn_info_state_update)
     Button btnDelete;
     @BindView(R.id.btn_updata)
     Button btnUpdata;

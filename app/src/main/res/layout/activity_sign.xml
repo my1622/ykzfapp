@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-
     <include layout="@layout/template_toolbar_me" />
 
     <LinearLayout
@@ -25,7 +24,7 @@
                 android:drawablePadding="@dimen/dp_10"
                 android:drawableStart="@drawable/state_update"
                 android:gravity="center_vertical"
-                android:text="选择状态" />
+                android:text="选择小区" />
         </LinearLayout>
 
         <LinearLayout
@@ -33,25 +32,25 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_10"
             android:background="@drawable/custom_circle_corner"
-            android:padding="@dimen/dp_20">
+            android:layout_gravity="center_vertical|center_horizontal">
 
             <TextView
-                android:id="@+id/tv_yes"
+                android:layout_marginTop="7dp"
+                android:gravity="center_vertical"
+                android:id="@+id/tv_commName"
+                android:text="请选择"
+                android:paddingLeft="@dimen/dp_10"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginLeft="@dimen/dp_5"
                 android:layout_weight="1"
-                android:drawableStart="@drawable/redio_buttom_checked"
-                android:gravity="center_vertical"
-                android:text="已成交" />
+                android:background="@color/white" />
 
-            <TextView
-                android:id="@+id/tv_not"
-                android:layout_width="0dp"
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:drawableStart="@drawable/redio_button_unchecked"
-                android:gravity="center_vertical"
-                android:text="无效房源" />
+                android:layout_gravity="center"
+                android:src="@drawable/pulldown" />
 
         </LinearLayout>
 
@@ -66,7 +65,7 @@
                 android:drawablePadding="@dimen/dp_10"
                 android:drawableStart="@drawable/ico_statu"
                 android:gravity="center_vertical"
-                android:text="状态变更" />
+                android:text="签到备注" />
 
         </LinearLayout>
 
@@ -78,7 +77,7 @@
             android:background="@drawable/custom_circle_corner">
 
             <EditText
-                android:id="@+id/ed_infostat_updata"
+                android:id="@+id/ed_sign_remarks"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
@@ -99,6 +98,7 @@
             android:layout_marginTop="@dimen/dp_20"
             android:layout_marginBottom="5dp"
             android:layout_gravity="center"
+            android:gravity="center"
             android:background="@drawable/button_shape_default_rounded"
             android:text="提交"
             android:textColor="@android:color/white"

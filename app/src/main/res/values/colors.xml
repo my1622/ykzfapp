@@ -348,4 +348,5 @@
     <color name="gray_btn_bg">#EAEAEA</color>
     <color name="background">#F1F1F1</color>
     <color name="blue_4285f4">#4285f4</color>
+    <color name="partTranslucent">#39000000</color>
 </resources>

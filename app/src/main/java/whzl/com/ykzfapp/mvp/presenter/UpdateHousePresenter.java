@@ -18,6 +18,7 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber;
 import me.jessyan.rxerrorhandler.handler.RetryWithDelay;
 import whzl.com.ykzfapp.bean.BaseEntity;
 import whzl.com.ykzfapp.bean.HouseDetailBean;
+import whzl.com.ykzfapp.bean.HouseListBean;
 import whzl.com.ykzfapp.mvp.contract.UpdateHouseContract;
 
 
@@ -64,6 +65,35 @@ public class UpdateHousePresenter extends BasePresenter<UpdateHouseContract.Mode
                     @Override
                     public void onNext(@NonNull BaseEntity<HouseDetailBean> houseDetailBeanBaseEntity) {
                         mRootView.success(houseDetailBeanBaseEntity.getObj());
+                    }
+                });
+    }
+
+    public void updataHouse(String loginName,String loginPwd,String houseId,
+                            String title,String CommunityId,String unitNo,
+                            String buildNo,String roomNo,String bedRooms,
+                            String livingRooms,String cookRooms,String bathRooms,
+                            String fyPath,String fyOutPath,String hxPath,
+                            String vdoPath,String voicePath){
+        mModel.updataHouse(loginName,loginPwd,houseId,
+                title,CommunityId,unitNo,buildNo,roomNo,
+                bedRooms, livingRooms,    cookRooms  ,bathRooms,
+                fyPath,fyOutPath,hxPath,vdoPath,voicePath)
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new RetryWithDelay(3, 2))
+                .doOnSubscribe(disposable -> {
+
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doAfterTerminate(() -> {
+
+                })
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))//使用Rxlifecycle,使Disposable和Activity一起销毁
+                .subscribe(new ErrorHandleSubscriber<BaseEntity<HouseListBean>>(mErrorHandler) {
+                    @Override
+                    public void onNext(@NonNull BaseEntity<HouseListBean> house) {
+                        mRootView.success(house.getObj());
                     }
                 });
     }

@@ -123,7 +123,7 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
     private void initToolbar() {
         tvToolbarTitle.setText("详情");
         mToolBar.setNavigationIcon(R.mipmap.icon_back);
-        mToolBar.setNavigationOnClickListener((View.OnClickListener) v -> finish());
+        mToolBar.setNavigationOnClickListener(v -> finish());
 
     }
 

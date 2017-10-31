@@ -30,19 +30,25 @@ import whzl.com.ykzfapp.di.module.MineModule;
 import whzl.com.ykzfapp.mvp.contract.MineContract;
 import whzl.com.ykzfapp.mvp.presenter.MinePresenter;
 import whzl.com.ykzfapp.mvp.ui.activity.LoginActivity;
+import whzl.com.ykzfapp.mvp.ui.activity.SignActivity;
 import whzl.com.ykzfapp.mvp.ui.adapter.MyHouListAdapter;
 import whzl.com.ykzfapp.utils.ACache;
 import whzl.com.ykzfapp.utils.ToastUtil;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
-import static whzl.com.ykzfapp.utils.DataCleanManager.clearAllCache;
+import static whzl.com.ykzfapp.mvp.ui.widget.GlideTool.cleanGlideDiskCache;
 import static whzl.com.ykzfapp.utils.DataCleanManager.getTotalCacheSize;
 
 
-public class MineFragment extends BaseFragment<MinePresenter> implements MineContract.View {
+public class MineFragment extends BaseFragment<MinePresenter>
+        implements MineContract.View ,View.OnClickListener{
 
     @BindView(R.id.tv_no_data)
     TextView tvNoData;
+    @BindView(R.id.toolbar_me)
+    Toolbar mToolbar;
+    @BindView(R.id.text_sign)
+    TextView textSign;
     @BindView(R.id.recycle_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.mFilterContentView)
@@ -81,7 +87,26 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
-        Toolbar mToolbar = view.findViewById(R.id.toolbar_me);
+
+        return view;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
+        mCache = ACache.get(getContext());
+        userBean = (UserBean) mCache.getAsObject(getString(R.string.user_bean));
+        initToolBar();
+        initUser();
+        initRecycleView();
+
+        textSign.setOnClickListener(this);
+        ArmsUtils.configRecycleView(mRecyclerView, new LinearLayoutManager(getActivity()));
+
+
+    }
+
+    private void initToolBar() {
+
         mToolbar.setNavigationIcon(R.drawable.ico_clean);
         mToolbar.inflateMenu(R.menu.toolbar_menu_me);
         mToolbar.setOnMenuItemClickListener(item -> {
@@ -118,8 +143,13 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
 
                         })
                         .setPositiveButton("确定", (dialog12, which) -> {
+                            /*String name = mCache.getAsString("name");
+                            String password = mCache.getAsString("password");
                             clearAllCache(getContext());
-                            //cleanGlideDiskCache();
+                            ACache aCache = ACache.get(getContext());
+                            aCache.put("name",name);
+                            aCache.put("password",password);*/
+                            cleanGlideDiskCache();
 
                         }).show();
             } catch (Exception e) {
@@ -127,21 +157,6 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
             }
 
         });
-        return view;
-    }
-
-    @Override
-    public void initData(Bundle savedInstanceState) {
-        mCache = ACache.get(getContext());
-        userBean = (UserBean) mCache.getAsObject(getString(R.string.user_bean));
-
-        initUser();
-        initRecycleView();
-
-
-        ArmsUtils.configRecycleView(mRecyclerView, new LinearLayoutManager(getActivity()));
-
-
     }
 
     private void initUser() {
@@ -278,5 +293,16 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineCon
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.text_sign:
+                startActivity(new Intent(getContext(), SignActivity.class));
 
+
+                break;
+            default:
+                break;
+        }
+    }
 }

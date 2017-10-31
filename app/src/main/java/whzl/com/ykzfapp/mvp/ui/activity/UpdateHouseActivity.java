@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -15,10 +16,14 @@ import com.jess.arms.utils.ArmsUtils;
 import butterknife.BindView;
 import whzl.com.ykzfapp.R;
 import whzl.com.ykzfapp.bean.HouseDetailBean;
+import whzl.com.ykzfapp.bean.HouseListBean;
+import whzl.com.ykzfapp.bean.UserBean;
 import whzl.com.ykzfapp.di.component.DaggerUpdateHouseComponent;
 import whzl.com.ykzfapp.di.module.UpdateHouseModule;
 import whzl.com.ykzfapp.mvp.contract.UpdateHouseContract;
 import whzl.com.ykzfapp.mvp.presenter.UpdateHousePresenter;
+import whzl.com.ykzfapp.utils.ACache;
+import whzl.com.ykzfapp.utils.ToastUtil;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 import static whzl.com.ykzfapp.R.id.tv_fy_path;
@@ -27,7 +32,7 @@ import static whzl.com.ykzfapp.R.id.tv_fy_path;
 public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
         implements UpdateHouseContract.View ,View.OnClickListener{
 
-
+    ACache mCache;
 
     @BindView(R.id.tv_commName)
     TextView tvCommName;
@@ -67,17 +72,21 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
     @BindView(R.id.ed_title)
     EditText edTitle;
 
-
+    private static final int REQUEST_CODE_COMMUNITY=0;
     private static final int REQUEST_CODE_FYPATH=1;
     private static final int REQUEST_CODE_FY_OUT_PATH=2;
     private static final int REQUEST_CODE_HX_PATH=3;
     private static final int REQUEST_CODE_VIDEO_PATH = 4;
     private static final int REQUEST_CODE_AUDIO_PATH = 5;
+    private int  communitId;
     private String fyPath;
     private String fyOutPath;
     private String hxPath;
-    private String videoPath;
-    private String audiofyPath;
+    private String vdoPath;
+    private String voicePath;
+    private String name,password;
+    private UserBean userBean;
+
 
     @Override
     public void setupActivityComponent(AppComponent appComponent) {
@@ -97,6 +106,10 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
     @Override
     public void initData(Bundle savedInstanceState) {
 
+        mCache = ACache.get(UpdateHouseActivity.this);
+        userBean= (UserBean) mCache.getAsObject(getString(R.string.user_bean));
+        name =  userBean.getName();
+        password =  userBean.getPassword();
         houseId = getIntent().getStringExtra("houseId");
         mPresenter.requestData(houseId);
         initToolbar();
@@ -107,7 +120,38 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
         tvTitleRight.setText("保存");
         tvTitleRight.setVisibility(View.VISIBLE);
         tvTitleRight.setOnClickListener(v ->{
-            //mPresenter.save()
+            if (TextUtils.isEmpty(edTitle.getText().toString().trim())){
+                ToastUtil.show(UpdateHouseActivity.this,"请输入房源标题");
+                return;
+            }
+            if (TextUtils.isEmpty(edUnitNo.getText().toString().trim())
+                    ||TextUtils.isEmpty( edBuildNo.getText().toString().trim())
+                    ||TextUtils.isEmpty(edRoomNo.getText().toString().trim())){
+                ToastUtil.show(UpdateHouseActivity.this,"请输入门牌号");
+                return;
+            }
+            if (TextUtils.isEmpty(edLivingrooms.getText().toString().trim())
+                ||TextUtils.isEmpty(edCookingrooms.getText().toString().trim())
+                ||TextUtils.isEmpty(edBathrooms.getText().toString().trim())
+                ||TextUtils.isEmpty(edBedrooms.getText().toString().trim())){
+                ToastUtil.show(UpdateHouseActivity.this,"请输入户型几室");
+                return;
+            }
+
+
+            mPresenter.updataHouse(name,password,houseId,
+                    edTitle.getText().toString().trim(),
+                    String.valueOf(communitId),
+                    edUnitNo.getText().toString().trim(),
+                    edBuildNo.getText().toString().trim(),
+                    edRoomNo.getText().toString().trim(),
+                    edBedrooms.getText().toString().trim(),
+                    edLivingrooms.getText().toString().trim(),
+                    edCookingrooms.getText().toString().trim(),
+                    edBathrooms.getText().toString().trim(),
+                    fyPath,fyOutPath,hxPath,vdoPath,voicePath);
+
+
                 }
 
         );
@@ -149,10 +193,17 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
         initText(houseDetail);
     }
 
+    @Override
+    public void success(HouseListBean houseListBean) {
+        ToastUtil.show(UpdateHouseActivity.this,"修改房源成功");
+        this.finish();
+
+    }
+
     private void initText(HouseDetailBean houseDetail) {
         edTitle.setText(houseDetail.getTitle() + "");
         tvCommName.setText(houseDetail.getCommunityName());
-
+        communitId = houseDetail.getCommunityId();
         edUnitNo.setText(houseDetail.getUnitNo() + "");
         edBuildNo.setText(houseDetail.getBuildNo() + "");
         edRoomNo.setText(houseDetail.getRoomNo() + "");
@@ -161,6 +212,11 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
         edCookingrooms.setText(houseDetail.getCookRooms() + "");
         edBathrooms.setText(houseDetail.getBathRooms() + "");
         tvCommName.setOnClickListener(this);
+        fyPath=houseDetail.getFyPath();
+        fyOutPath=houseDetail.getFyOutPath();
+        hxPath=houseDetail.getHxPath();
+        vdoPath=houseDetail.getVideoPath();
+        voicePath = houseDetail.getVoicePath();
 
         initButtons(tvFyPath,houseDetail.getFyPath());
         initButtons(tvFyOutPath,houseDetail.getFyOutPath());
@@ -186,7 +242,7 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_commName:
-                startActivity(new Intent(this, CommunityActivity.class));
+                startActivityForResult(new Intent(this, CommunityActivity.class),REQUEST_CODE_COMMUNITY);
 
                 break;
 
@@ -234,6 +290,10 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==RESULT_OK){
             switch (requestCode){
+                case REQUEST_CODE_COMMUNITY:
+                    communitId = data.getIntExtra("communityId", 0);
+                    tvCommName.setText(data.getStringExtra("communityName"));
+                    break;
                 case REQUEST_CODE_FYPATH:
                     fyPath = data.getStringExtra("backData");
                     break;
@@ -244,10 +304,10 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
                     hxPath = data.getStringExtra("backData");
                     break;
                 case REQUEST_CODE_VIDEO_PATH:
-                    videoPath = data.getStringExtra("backData");
+                    vdoPath = data.getStringExtra("backData");
                     break;
                 case REQUEST_CODE_AUDIO_PATH:
-                    audiofyPath = data.getStringExtra("backData");
+                    voicePath = data.getStringExtra("backData");
                     break;
                 default:
                     break;

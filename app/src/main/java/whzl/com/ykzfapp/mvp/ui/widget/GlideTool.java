@@ -53,18 +53,21 @@ public class GlideTool {
         Glide.with(tmpContext).setDefaultRequestOptions(options).load(imgUrl).into(imageView);
     }
     public static void cleanGlideDiskCache(){
+        Context  tmpContext = null;
+        tmpContext = AppApplication.getAppContext();
+        Glide.get(tmpContext).clearMemory();
         new AsyncTask<Void,Void,Void>(){
 
             @Override
             protected Void doInBackground(Void... params) {
                 // This method must be called on a background thread.
-                Context tmpContext = null;
+                Context  tmpContext = null;
                 tmpContext = AppApplication.getAppContext();
-                Glide.get(tmpContext).clearMemory();
+
                 Glide.get(tmpContext).clearDiskCache();
                 return null;
             }
-        };
+        }.execute();
 
     }
 

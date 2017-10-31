@@ -7,24 +7,22 @@ import com.jess.arms.di.scope.ActivityScope;
 import com.jess.arms.integration.IRepositoryManager;
 import com.jess.arms.mvp.BaseModel;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import whzl.com.ykzfapp.bean.BaseEntity;
-import whzl.com.ykzfapp.bean.FollowListBean;
-import whzl.com.ykzfapp.mvp.contract.FollowUpContract;
+import whzl.com.ykzfapp.bean.SignBean;
+import whzl.com.ykzfapp.mvp.contract.SignContract;
 import whzl.com.ykzfapp.mvp.model.api.service.CommonService;
 
 
 @ActivityScope
-public class FollowUpModel extends BaseModel implements FollowUpContract.Model {
+public class SignModel extends BaseModel implements SignContract.Model {
     private Gson mGson;
     private Application mApplication;
 
     @Inject
-    public FollowUpModel(IRepositoryManager repositoryManager, Gson gson, Application application) {
+    public SignModel(IRepositoryManager repositoryManager, Gson gson, Application application) {
         super(repositoryManager);
         this.mGson = gson;
         this.mApplication = application;
@@ -38,16 +36,10 @@ public class FollowUpModel extends BaseModel implements FollowUpContract.Model {
     }
 
     @Override
-    public Observable<BaseEntity<List<FollowListBean>>> requestData(String houseId) {
-        return mRepositoryManager
+    public Observable<BaseEntity<SignBean>> sign(String loginName, String loginPwd, int signCommunityId, String signInfo) {
+        return  mRepositoryManager
                 .obtainRetrofitService(CommonService.class)
-                .getFollowList(houseId);
-    }
-
-    @Override
-    public Observable<BaseEntity<FollowListBean>> addFollowUp(String loginName, String loginPwd, String houseId, String followContent) {
-        return mRepositoryManager
-                .obtainRetrofitService(CommonService.class)
-                .addFollowUp(loginName,loginPwd,houseId,followContent);
+                .sign(loginName,loginPwd,signCommunityId,
+                        signInfo);
     }
 }

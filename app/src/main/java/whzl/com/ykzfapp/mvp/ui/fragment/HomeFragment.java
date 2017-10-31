@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.baiiu.filter.DropDownMenu;
 import com.baiiu.filter.interfaces.OnFilterDoneListener;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.jess.arms.base.BaseFragment;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
@@ -38,7 +37,9 @@ import whzl.com.ykzfapp.di.component.DaggerHomeComponent;
 import whzl.com.ykzfapp.di.module.HomeModule;
 import whzl.com.ykzfapp.mvp.contract.HomeContract;
 import whzl.com.ykzfapp.mvp.presenter.HomePresenter;
+import whzl.com.ykzfapp.mvp.ui.activity.FollowUpActivity;
 import whzl.com.ykzfapp.mvp.ui.activity.HouseDetailActivity;
+import whzl.com.ykzfapp.mvp.ui.activity.StateUpdateActivity;
 import whzl.com.ykzfapp.mvp.ui.adapter.HomeListAdapter;
 import whzl.com.ykzfapp.utils.ACache;
 import whzl.com.ykzfapp.utils.ToastUtil;
@@ -56,6 +57,7 @@ public class HomeFragment extends BaseFragment<HomePresenter>
     TextView tvNoData;
     @BindView(R.id.simple_pullLayout)
     SimplePullLayout mSimplePullLayout;
+
 
     @BindView(R.id.dropDownMenu)
     DropDownMenu dropDownMenu;
@@ -85,19 +87,19 @@ public class HomeFragment extends BaseFragment<HomePresenter>
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+
         return rootView;
     }
 
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
         mPresenter.getDictionary();
         mCache = ACache.get(getContext());
         userBean = (UserBean) mCache.getAsObject(getString(R.string.user_bean));
-        editText.setOnKeyListener((View.OnKeyListener) (v, keyCode, event) -> {
-
-            if(keyCode== KeyEvent.KEYCODE_ENTER) {//修改回车键功能
+        editText.setOnKeyListener((v, keyCode, event) -> {
+            //修改回车键功能
+            if(keyCode== KeyEvent.KEYCODE_ENTER) {
                 ((InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE))
                         .hideSoftInputFromWindow(getActivity().getCurrentFocus()
                                 .getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -135,7 +137,6 @@ public class HomeFragment extends BaseFragment<HomePresenter>
     }
 
     protected void getData() {
-       // mPresenter.requestData("", "", "", "","",page);
         mPresenter.requestData(title, region, salePrice, bedRooms,area,page);
     }
     private void initRecycleView() {
@@ -156,20 +157,32 @@ public class HomeFragment extends BaseFragment<HomePresenter>
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdatper = HomeListAdapter
-
                 .builder()
-                .setContext(getContext())
                 .build();
 
         mRecyclerView.setAdapter(mAdatper);
-        mAdatper.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(getContext(), HouseDetailActivity.class);
-                //String s=((HomeListAdapter)adapter).getItem(position).getId();
-                intent.putExtra("houseId",String.valueOf(((HomeListAdapter)adapter).getItem(position).getId()));
-                startActivity(intent);
+        mAdatper.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(getContext(), HouseDetailActivity.class);
+            intent.putExtra("houseId",String.valueOf(((HomeListAdapter)adapter).getItem(position).getId()));
+            startActivity(intent);
+        });
+        mAdatper.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()){
+                case R.id.btn_updata:
+                    Intent intent=new Intent(getContext(), FollowUpActivity.class);
+                    intent.putExtra("houseId",String.valueOf(((HomeListAdapter)adapter).getItem(position).getId()));
+                    startActivity(intent);
+                    break;
+                case R.id.btn_info_state_update:
+                    Intent intent1=new Intent(getContext(), StateUpdateActivity.class);
+                    intent1.putExtra("houseId",String.valueOf(((HomeListAdapter)adapter).getItem(position).getId()));
+                    startActivity(intent1);
+                    break;
+                default:
+                    break;
+
             }
+
         });
 
     }
@@ -306,5 +319,6 @@ public class HomeFragment extends BaseFragment<HomePresenter>
             /// ToastUtil.show(getContext(),"未找到符合条件的结果！");
         }
     }
+
 
 }

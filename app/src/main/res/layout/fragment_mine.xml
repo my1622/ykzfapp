@@ -35,6 +35,7 @@
                     android:gravity="center|left">
 
                     <TextView
+                        android:id="@+id/text_sign"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="center"

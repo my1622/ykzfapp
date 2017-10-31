@@ -272,6 +272,8 @@ implements UploadFileContract.View{
 
     @Override
     public void success(String string) {
-
+        Intent intent=new Intent();
+        intent.putExtra("backData", string);
+        setResult(RESULT_OK, intent);//回传数据到主Activity
     }
 }

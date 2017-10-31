@@ -1,6 +1,5 @@
 package whzl.com.ykzfapp.mvp.ui.adapter;
 
-import android.content.Context;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -17,25 +16,16 @@ import whzl.com.ykzfapp.mvp.ui.widget.GlideTool;
 
 public class HomeListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHolder> {
 
-
     private Builder mBuilder;
 
-
     public static class Builder {
-
         private int layoutId = R.layout.templete_todo_house_cardview;
         public HomeListAdapter build() {
             return new HomeListAdapter(this);
         }
-        Context mContext;
         public Builder layout(int resId) {
             this.layoutId = resId;
 
-            return this;
-        }
-
-        public Builder setContext(Context context) {
-            mContext = context;
             return this;
         }
     }
@@ -93,31 +83,11 @@ public class HomeListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHol
 
         helper.setVisible(R.id.btn_modify, false);
         helper.setText(R.id.btn_updata, "跟进");
-        helper.setText(R.id.btn_delete, "房源状态");
+        helper.setText(R.id.btn_info_state_update, "房源状态");
         helper.setVisible(R.id.btn_updata, true);
-        helper.setVisible(R.id.btn_delete, true);
-       /* helper.setText(R.id.text_title, item.getHousetitle()+item.getCommName()+"-"+item.getRentalMode());
-        helper.setText(R.id.text_rent, item.getRent());
-        helper.setText(R.id.text_audit_status, getStatus(item.getAuditstatus()));
-        helper.setText(R.id.text_purpose, getPurpose(item.getPurpose()));
-        helper.setVisible(R.id.text_rent_name, false);
-        //Logger.d(item.getHousetitle()+item.getLeaseStatus());
-
-        if (item.getAuditstatus().equals(mDictionary.getAuthstatus().get(1).getValue())){
-
-            helper.setVisible(R.id.btn_delete, false);
-            helper.setVisible(btn_updata, true);
-            helper.setText(btn_updata, "重新发布");
-        }else{
-            helper.setVisible(R.id.btn_delete, true);
-            helper.setVisible(btn_updata, false);
-        }*/
-
-   /*     helper.addOnClickListener(R.id.btn_delete);
-        helper.addOnClickListener(R.id.btn_modify);
-        helper.addOnClickListener(btn_updata);*/
-
-
+        helper.setVisible(R.id.btn_info_state_update, true);
+        helper.addOnClickListener(R.id.btn_updata);
+        helper.addOnClickListener(R.id.btn_info_state_update);
     }
 
 }

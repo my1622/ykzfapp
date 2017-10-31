@@ -7,9 +7,6 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
@@ -60,7 +57,10 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".mvp.ui.activity.HouseDetailActivity" />
         <activity android:name=".mvp.ui.activity.StateUpdateActivity" />
-        <activity android:name=".mvp.ui.activity.FollowUpActivity" />
+        <activity android:name=".mvp.ui.activity.FollowUpActivity"
+            android:configChanges="keyboard"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".mvp.ui.activity.UpdateHouseActivity"
             android:configChanges="keyboard"
@@ -68,10 +68,11 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".mvp.ui.activity.DetailHouseActivity" />
         <activity android:name=".mvp.ui.activity.StaticPicture" />
-        <activity android:name=".mvp.ui.activity.CommunityActivity"></activity>
-        <activity android:name=".mvp.ui.activity.PictureActivity"/>
-        <activity android:name=".mvp.ui.activity.AudioActivity"/>
-        <activity android:name=".mvp.ui.activity.VideoActivity"/>
+        <activity android:name=".mvp.ui.activity.CommunityActivity" />
+        <activity android:name=".mvp.ui.activity.PictureActivity" />
+        <activity android:name=".mvp.ui.activity.AudioActivity" />
+        <activity android:name=".mvp.ui.activity.VideoActivity" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -81,6 +82,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity android:name=".mvp.ui.activity.SignActivity"></activity>
     </application>
 
 </manifest>

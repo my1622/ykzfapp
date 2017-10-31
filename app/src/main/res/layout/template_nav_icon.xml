@@ -2,9 +2,8 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/dp_10"
-    android:layout_marginRight="@dimen/dp_10"
+    android:layout_height="wrap_content"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     >
@@ -18,24 +17,22 @@
         android:background="@color/md_white_1000"
 
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="15dp"
 
         >
 
 
         <LinearLayout
-            android:id="@+id/layout_hot_app"
-            android:layout_width="wrap_content"
+
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_weight="0.5"
             android:background="@drawable/custom_str_corner"
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
             android:orientation="vertical">
 
             <TextView
-
+                android:id="@+id/tv_number"
                 android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,8 +44,8 @@
 
 
         <LinearLayout
-            android:id="@+id/layout_hot_game"
-            android:layout_width="wrap_content"
+
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/custom_str_corner"
@@ -58,7 +55,7 @@
 
 
             <TextView
-
+                android:id="@+id/tv_followUpUser"
                 android:textSize="15sp"
 
                 android:layout_width="wrap_content"
@@ -69,8 +66,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_hot_subject"
-            android:layout_width="wrap_content"
+
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/custom_str_corner"
@@ -82,18 +79,21 @@
 
             <TextView
 
-
+                android:id="@+id/tv_content"
                 android:textSize="15sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxEms="6"
+                android:singleLine="true"
                 android:text="跟进内容" />
 
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_subject"
-            android:layout_width="wrap_content"
+
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/custom_str_corner"
@@ -105,7 +105,7 @@
 
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/tv_follow_update"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

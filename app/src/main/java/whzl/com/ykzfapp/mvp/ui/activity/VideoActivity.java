@@ -2,6 +2,7 @@ package whzl.com.ykzfapp.mvp.ui.activity;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import whzl.com.ykzfapp.R;
@@ -50,6 +52,8 @@ public class VideoActivity extends BaseActivity <UploadFilePresenter>
     TextView tvToolbarTitle;
     @BindView(R.id.toolbar_me)
     Toolbar toolbarMe;
+    @BindView(R.id.tv_right)
+    TextView tvRight;
 
     /*图片相关数据*/
     private List<LocalMedia> selectList = new ArrayList<>();
@@ -58,6 +62,7 @@ public class VideoActivity extends BaseActivity <UploadFilePresenter>
     private int compressMode = PictureConfig.SYSTEM_COMPRESS_MODE;
     private int themeId;
     private int chooseMode = PictureMimeType.ofVideo();
+    private SweetAlertDialog pDialog;
 
     @Override
     public void setupActivityComponent(AppComponent appComponent) {
@@ -85,6 +90,13 @@ public class VideoActivity extends BaseActivity <UploadFilePresenter>
         tvToolbarTitle.setText(title);
         toolbarMe.setNavigationIcon(R.mipmap.icon_back);
         toolbarMe.setNavigationOnClickListener(v -> finish());
+        tvRight.setText("上传");
+        tvRight.setVisibility(View.VISIBLE);
+        tvRight.setOnClickListener(v ->{
+            if (selectList.size()>0){
+                mPresenter.upLoadFiles(selectList);
+            }
+        });
 
     }
 
@@ -222,12 +234,23 @@ public class VideoActivity extends BaseActivity <UploadFilePresenter>
 
     @Override
     public void showLoading() {
-
+        pDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+        pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+        pDialog.setTitleText("Loading");
+        pDialog.setCancelable(false);
+        pDialog.show();
     }
 
     @Override
     public void hideLoading() {
+        pDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+        pDialog.setConfirmClickListener(sDialog -> {
+            sDialog.dismissWithAnimation();
 
+            finish(); //此方法后才能返回主Activity
+
+
+        });
     }
 
     @Override
@@ -248,6 +271,8 @@ public class VideoActivity extends BaseActivity <UploadFilePresenter>
 
     @Override
     public void success(String string) {
-
+        Intent intent=new Intent();
+        intent.putExtra("backData", string);
+        setResult(RESULT_OK, intent);//回传数据到主Activity
     }
 }

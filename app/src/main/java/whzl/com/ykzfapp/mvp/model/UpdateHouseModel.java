@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import whzl.com.ykzfapp.bean.BaseEntity;
 import whzl.com.ykzfapp.bean.HouseDetailBean;
+import whzl.com.ykzfapp.bean.HouseListBean;
 import whzl.com.ykzfapp.mvp.contract.UpdateHouseContract;
 import whzl.com.ykzfapp.mvp.model.api.service.CommonService;
 
@@ -39,5 +40,15 @@ public class UpdateHouseModel extends BaseModel implements UpdateHouseContract.M
         return mRepositoryManager
                 .obtainRetrofitService(CommonService.class)
                 .getHouseDetail(houseId);
+    }
+
+    @Override
+    public Observable<BaseEntity<HouseListBean>> updataHouse(String loginName, String loginPwd, String houseId, String title, String communityId, String unitNo, String buildNo, String roomNo, String bedRooms, String livingRooms, String cookRooms, String bathRooms, String fyPath, String fyOutPath, String hxPath, String vdoPath, String voicePath) {
+         return mRepositoryManager
+                .obtainRetrofitService(CommonService.class)
+                .updataHouse(loginName,loginPwd,houseId,
+                        title,communityId,buildNo,unitNo,roomNo,
+                        bedRooms, livingRooms,cookRooms ,bathRooms,
+                        fyPath,fyOutPath,hxPath,vdoPath,voicePath);
     }
 }

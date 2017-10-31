@@ -94,9 +94,9 @@ public class MyHouListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
         helper.setText(R.id.text_pub, getReleaseStatus(item.getReleasedStatus()));
         helper.setText(R.id.btn_modify, "修改");
         helper.setText(R.id.btn_updata, "跟进");
-        helper.setText(R.id.btn_delete, "房源状态");
+        helper.setText(R.id.btn_info_state_update, "房源状态");
         helper.setVisible(R.id.btn_updata, true);
-        helper.setVisible(R.id.btn_delete, true);
+        helper.setVisible(R.id.btn_info_state_update, true);
        /* helper.setText(R.id.text_title, item.getHousetitle()+item.getCommName()+"-"+item.getRentalMode());
         helper.setText(R.id.text_rent, item.getRent());
         helper.setText(R.id.text_audit_status, getStatus(item.getAuditstatus()));
