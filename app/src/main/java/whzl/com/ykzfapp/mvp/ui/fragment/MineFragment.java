@@ -29,6 +29,7 @@ import whzl.com.ykzfapp.di.component.DaggerMineComponent;
 import whzl.com.ykzfapp.di.module.MineModule;
 import whzl.com.ykzfapp.mvp.contract.MineContract;
 import whzl.com.ykzfapp.mvp.presenter.MinePresenter;
+import whzl.com.ykzfapp.mvp.ui.activity.AddHouseActivity;
 import whzl.com.ykzfapp.mvp.ui.activity.DetailHouseActivity;
 import whzl.com.ykzfapp.mvp.ui.activity.FollowUpActivity;
 import whzl.com.ykzfapp.mvp.ui.activity.LoginActivity;
@@ -67,6 +68,9 @@ public class MineFragment extends BaseFragment<MinePresenter>
     @BindView(R.id.text_group_name)
     TextView textGroupName;
 
+    @BindView(R.id.tv_add_house)
+    TextView tvAddHouse;
+
     private int page;
     private UserBean userBean;
     private boolean pullToRefresh = true;
@@ -104,6 +108,7 @@ public class MineFragment extends BaseFragment<MinePresenter>
         initRecycleView();
 
         textSign.setOnClickListener(this);
+        tvAddHouse.setOnClickListener(this);
         ArmsUtils.configRecycleView(mRecyclerView, new LinearLayoutManager(getActivity()));
 
 
@@ -147,12 +152,6 @@ public class MineFragment extends BaseFragment<MinePresenter>
 
                         })
                         .setPositiveButton("确定", (dialog12, which) -> {
-                            /*String name = mCache.getAsString("name");
-                            String password = mCache.getAsString("password");
-                            clearAllCache(getContext());
-                            ACache aCache = ACache.get(getContext());
-                            aCache.put("name",name);
-                            aCache.put("password",password);*/
                             cleanGlideDiskCache();
 
                         }).show();
@@ -172,6 +171,7 @@ public class MineFragment extends BaseFragment<MinePresenter>
     @Override
     public void onResume() {
         super.onResume();
+        pullToRefresh=true;
         mAdatper.setEnableLoadMore(true);
         freshHouseList();
 
@@ -331,6 +331,8 @@ public class MineFragment extends BaseFragment<MinePresenter>
 
 
                 break;
+            case R.id.tv_add_house:
+                startActivity(new Intent(getContext(),AddHouseActivity.class));
             default:
                 break;
         }

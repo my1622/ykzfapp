@@ -60,25 +60,24 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
     TextView tvVideoPath;
     @BindView(R.id.tv_voice_path)
     TextView tvVoicePath;
-    private String houseId;
-
     @BindView(R.id.toolbar_me)
     Toolbar mToolBar;
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
     @BindView(R.id.tv_right)
     TextView tvTitleRight;
-
     @BindView(R.id.ed_title)
     EditText edTitle;
 
+
+    private String houseId;
     private static final int REQUEST_CODE_COMMUNITY=0;
     private static final int REQUEST_CODE_FYPATH=1;
     private static final int REQUEST_CODE_FY_OUT_PATH=2;
     private static final int REQUEST_CODE_HX_PATH=3;
     private static final int REQUEST_CODE_VIDEO_PATH = 4;
     private static final int REQUEST_CODE_AUDIO_PATH = 5;
-    private int  communitId;
+    private int  communitId=0;
     private String fyPath;
     private String fyOutPath;
     private String hxPath;
@@ -135,6 +134,10 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
                 ||TextUtils.isEmpty(edBathrooms.getText().toString().trim())
                 ||TextUtils.isEmpty(edBedrooms.getText().toString().trim())){
                 ToastUtil.show(UpdateHouseActivity.this,"请输入户型几室");
+                return;
+            }
+            if (communitId==0){
+                ToastUtil.show(UpdateHouseActivity.this,"请输入小区");
                 return;
             }
 
@@ -246,7 +249,7 @@ public class UpdateHouseActivity extends BaseActivity<UpdateHousePresenter>
 
                 break;
 
-            case tv_fy_path:
+            case R.id.tv_fy_path:
                 Intent intent = new Intent(this, PictureActivity.class);
                 intent.putExtra("title", "上传室内图片");
                 intent.putExtra("type", "图片");

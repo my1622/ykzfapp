@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
+import com.luck.picture.lib.PictureSelector;
 
 import butterknife.BindView;
 import whzl.com.ykzfapp.R;
@@ -17,6 +18,7 @@ import whzl.com.ykzfapp.bean.HouseDetailBean;
 import whzl.com.ykzfapp.di.component.DaggerDetailHouseComponent;
 import whzl.com.ykzfapp.di.module.DetailHouseModule;
 import whzl.com.ykzfapp.mvp.contract.DetailHouseContract;
+import whzl.com.ykzfapp.mvp.model.api.Api;
 import whzl.com.ykzfapp.mvp.presenter.DetailHousePresenter;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -170,9 +172,15 @@ public class DetailHouseActivity extends BaseActivity<DetailHousePresenter>
                 startActivity(intent2);
                 break;
             case R.id.tv_video_path:
+                String[] url = mHouseDetail.getVideoPath().split(",");
+
+                PictureSelector.create(DetailHouseActivity.this).externalPictureVideo(Api.APP_DOMAIN+url[0].substring(1));
 
                 break;
             case R.id.tv_voice_path:
+                String[] url1 = mHouseDetail.getVoicePath().split(",");
+
+                PictureSelector.create(DetailHouseActivity.this).externalPictureAudio(Api.APP_DOMAIN+url1[0].substring(1));
 
                 break;
         }

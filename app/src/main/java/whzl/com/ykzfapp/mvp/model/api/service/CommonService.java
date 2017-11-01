@@ -79,6 +79,26 @@ public interface CommonService {
                                           @Query("sign.signInfo")String signInfo);
 
 
+    //增加房源
+    @POST("ykzfInterface/houseAction_addHouse.do")
+    Observable<BaseEntity<HouseListBean>> addHouse(
+            @Query("loginName") String loginName,
+            @Query("loginPwd") String loginPwd,
+            @Query("house.title") String title,
+            @Query("house.community.id") String Community,
+            @Query("house.buildNo") String buildNo,
+            @Query("house.unitNo") String unitNo,
+            @Query("house.roomNo") String roomNo,
+            @Query("house.bedRooms") String bedRooms,
+            @Query("house.livingRooms") String livingRooms,
+            @Query("house.cookRooms") String cookRooms,
+            @Query("house.bathRooms") String bathRooms,
+            @Query("fyPath") String fyPath,
+            @Query("fyOutPath") String fyOutPath,
+            @Query("hxPath") String hxPath,
+            @Query("vdoPath") String vdoPath,
+            @Query("voicePath") String voicePath
+    );
     //更新房源
     @PUT("ykzfInterface/houseAction_updateHouse.do")
     Observable<BaseEntity<HouseListBean>> updataHouse(

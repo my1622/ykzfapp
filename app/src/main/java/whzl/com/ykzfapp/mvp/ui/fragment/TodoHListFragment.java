@@ -199,6 +199,7 @@ public class TodoHListFragment extends BaseFragment<TodoHListPresenter>
     @Override
     public void onResume() {
         super.onResume();
+        pullToRefresh=true;
         mAdatper.setEnableLoadMore(true);
         freshHouseList();
 

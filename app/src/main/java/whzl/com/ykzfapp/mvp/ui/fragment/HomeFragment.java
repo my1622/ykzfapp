@@ -131,6 +131,7 @@ public class HomeFragment extends BaseFragment<HomePresenter>
     @Override
     public void onResume() {
         super.onResume();
+        pullToRefresh=true;
         mAdatper.setEnableLoadMore(true);
         freshHouseList();
 
