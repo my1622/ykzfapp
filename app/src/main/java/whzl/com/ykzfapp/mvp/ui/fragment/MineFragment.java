@@ -29,8 +29,12 @@ import whzl.com.ykzfapp.di.component.DaggerMineComponent;
 import whzl.com.ykzfapp.di.module.MineModule;
 import whzl.com.ykzfapp.mvp.contract.MineContract;
 import whzl.com.ykzfapp.mvp.presenter.MinePresenter;
+import whzl.com.ykzfapp.mvp.ui.activity.DetailHouseActivity;
+import whzl.com.ykzfapp.mvp.ui.activity.FollowUpActivity;
 import whzl.com.ykzfapp.mvp.ui.activity.LoginActivity;
 import whzl.com.ykzfapp.mvp.ui.activity.SignActivity;
+import whzl.com.ykzfapp.mvp.ui.activity.StateUpdateActivity;
+import whzl.com.ykzfapp.mvp.ui.activity.UpdateHouseActivity;
 import whzl.com.ykzfapp.mvp.ui.adapter.MyHouListAdapter;
 import whzl.com.ykzfapp.utils.ACache;
 import whzl.com.ykzfapp.utils.ToastUtil;
@@ -201,12 +205,38 @@ public class MineFragment extends BaseFragment<MinePresenter>
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdatper = MyHouListAdapter
-
                 .builder()
-                .setContext(getContext())
                 .build();
 
         mRecyclerView.setAdapter(mAdatper);
+        mAdatper.setOnItemClickListener((adapter, view, position) -> {
+            Intent intent = new Intent(getContext(), DetailHouseActivity.class);
+            intent.putExtra("houseId",String.valueOf(((MyHouListAdapter)adapter).getItem(position).getId()));
+            startActivity(intent);
+        });
+        mAdatper.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()){
+                case R.id.btn_updata:
+                    Intent intent=new Intent(getContext(), FollowUpActivity.class);
+                    intent.putExtra("houseId",String.valueOf(((MyHouListAdapter)adapter).getItem(position).getId()));
+                    startActivity(intent);
+                    break;
+                case R.id.btn_info_state_update:
+                    Intent intent1=new Intent(getContext(), StateUpdateActivity.class);
+                    intent1.putExtra("houseId",String.valueOf(((MyHouListAdapter)adapter).getItem(position).getId()));
+                    startActivity(intent1);
+                    break;
+                case R.id.btn_modify:
+                    Intent intent2 = new Intent(getContext(), UpdateHouseActivity.class);
+                    intent2.putExtra("houseId", String.valueOf(((MyHouListAdapter) adapter).getItem(position).getId()));
+                    startActivity(intent2);
+                    break;
+                default:
+                    break;
+
+            }
+
+        });
 
     }
 

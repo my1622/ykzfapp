@@ -1,6 +1,5 @@
 package whzl.com.ykzfapp.mvp.ui.adapter;
 
-import android.content.Context;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -27,17 +26,14 @@ public class MyHouListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
         public MyHouListAdapter build() {
             return new MyHouListAdapter(this);
         }
-        Context mContext;
+
         public Builder layout(int resId) {
             this.layoutId = resId;
 
             return this;
         }
 
-        public Builder setContext(Context context) {
-            mContext = context;
-            return this;
-        }
+
     }
 
     private MyHouListAdapter(Builder builder) {
@@ -97,6 +93,12 @@ public class MyHouListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHo
         helper.setText(R.id.btn_info_state_update, "房源状态");
         helper.setVisible(R.id.btn_updata, true);
         helper.setVisible(R.id.btn_info_state_update, true);
+        helper.addOnClickListener(R.id.btn_info_state_update);
+
+        helper.addOnClickListener(R.id.btn_modify);
+
+        helper.addOnClickListener(R.id.btn_updata);
+
        /* helper.setText(R.id.text_title, item.getHousetitle()+item.getCommName()+"-"+item.getRentalMode());
         helper.setText(R.id.text_rent, item.getRent());
         helper.setText(R.id.text_audit_status, getStatus(item.getAuditstatus()));

@@ -457,33 +457,14 @@
                     android:layout_height="wrap_content"
                     android:text="户型图" />
 
-                <com.daimajia.slider.library.SliderLayout
-                    android:id="@+id/slider_blueprint"
+                <ImageView
+
+                    android:id="@+id/iv_blueprint"
                     android:layout_width="match_parent"
                     android:layout_height="160dp">
 
-                    <com.daimajia.slider.library.Indicators.PagerIndicator
-                        android:id="@+id/custom_indicator_blueprint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center"
-                        android:paddingBottom="8dp"
-                        android:paddingTop="8dp"
-                        custom:selected_color="#FF5500"
-                        custom:selected_height="3dp"
-                        custom:selected_padding_left="2dp"
-                        custom:selected_padding_right="2dp"
-                        custom:selected_width="16dp"
-                        custom:shape="rect"
-                        custom:unselected_color="#55333333"
-                        custom:unselected_height="3dp"
-                        custom:unselected_padding_left="2dp"
-                        custom:unselected_padding_right="2dp"
-                        custom:unselected_width="16dp" />
 
-                </com.daimajia.slider.library.SliderLayout>
+                </ImageView>
             </LinearLayout>
 
             <LinearLayout
@@ -499,10 +480,11 @@
                     android:layout_height="wrap_content"
                     android:text="视频" />
 
-                <ImageView
+                <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+                    android:id="@+id/player_video"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:src="@color/colorPrimary" />
+                    android:layout_height="220dp" />
+
 
 
             </LinearLayout>
@@ -521,16 +503,17 @@
                     android:text="录音" />
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:src="@color/colorPrimary" />
+                    android:id="@+id/iv_voice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/voicefile" />
 
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="220dp"
                 android:background="@color/white"
                 android:layout_marginTop="@dimen/dp_10"
                 android:orientation="vertical">
@@ -541,10 +524,11 @@
                     android:layout_height="wrap_content"
                     android:text="小区详情" />
 
-                <ImageView
+                <com.baidu.mapapi.map.MapView
+                    android:id="@+id/bmapView"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:src="@color/colorPrimary" />
+                    android:layout_height="match_parent"
+                    android:clickable="true" />
 
 
             </LinearLayout>

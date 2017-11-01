@@ -58,7 +58,7 @@ public class VideoActivity extends BaseActivity <UploadFilePresenter>
     /*图片相关数据*/
     private List<LocalMedia> selectList = new ArrayList<>();
     private GridImageAdapter adapter;
-    private int maxSelectNum = 4;
+    private int maxSelectNum = 1;
     private int compressMode = PictureConfig.SYSTEM_COMPRESS_MODE;
     private int themeId;
     private int chooseMode = PictureMimeType.ofVideo();

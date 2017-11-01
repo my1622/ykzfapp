@@ -1,12 +1,25 @@
 package whzl.com.ykzfapp.mvp.ui.activity;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatus;
+import com.baidu.mapapi.map.MapStatusUpdate;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
+import com.bumptech.glide.Glide;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.Indicators.PagerIndicator;
 import com.daimajia.slider.library.SliderLayout;
@@ -16,9 +29,12 @@ import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import whzl.com.ykzfapp.R;
 import whzl.com.ykzfapp.bean.HouseDetailBean;
 import whzl.com.ykzfapp.di.component.DaggerHouseDetailComponent;
@@ -26,6 +42,7 @@ import whzl.com.ykzfapp.di.module.HouseDetailModule;
 import whzl.com.ykzfapp.mvp.contract.HouseDetailContract;
 import whzl.com.ykzfapp.mvp.model.api.Api;
 import whzl.com.ykzfapp.mvp.presenter.HouseDetailPresenter;
+import whzl.com.ykzfapp.mvp.ui.widget.GlideTool;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 import static whzl.com.ykzfapp.commom.Constant.getFitmentType;
@@ -44,11 +61,17 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
     SliderLayout mSliderLayout;
     @BindView(R.id.custom_indicator)
     PagerIndicator mPagerIndicator;
+
     @BindView(R.id.tv_toolbar_title)
     TextView tvToolbarTitle;
 
+    @BindView(R.id.iv_blueprint)
+    ImageView ivBluePrint;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+
+    @BindView(R.id.iv_voice)
+    ImageView ivVoice;
  
     @BindView(R.id.tv_address)
     TextView tvAddress;
@@ -94,6 +117,10 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
     @BindView(R.id.tv_checkTel)
     TextView tvCheckTel;
 
+
+    MapView mMapView=null;
+
+    private BaiduMap mBaiduMap;
     private String houseId;
 
     @Override
@@ -113,7 +140,7 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        mMapView= (MapView) findViewById(R.id.bmapView);
         houseId = getIntent().getStringExtra("houseId");
         mPresenter.requestData(houseId);
         initToolbar();
@@ -159,7 +186,90 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
     public void success(HouseDetailBean houseDetail) {
         initSlider(houseDetail.getFyPath());
         initText(houseDetail);
+        initBulePrint(houseDetail);
+        initVideo(houseDetail);
+        initAudio(houseDetail);
+        initBaiduMap(houseDetail);
 
+    }
+
+    private void initBaiduMap(HouseDetailBean houseDetail) {
+
+        mBaiduMap=mMapView.getMap();
+        LatLng point = new LatLng(Double.valueOf(houseDetail.getLat()),
+                Double.valueOf(houseDetail.getLng()));
+        MapStatus msu =  new MapStatus.Builder()
+                .target(point)
+                .zoom(17)
+                .build();
+        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(msu);
+        //改变地图状态
+        mBaiduMap.setMapStatus(mMapStatusUpdate);
+
+
+        //定义Maker坐标点
+
+
+//构建Marker图标
+
+        BitmapDescriptor bitmap = BitmapDescriptorFactory
+                .fromResource(R.mipmap.icon_gcoding);
+
+//构建MarkerOption，用于在地图上添加Marker
+
+        OverlayOptions option = new MarkerOptions()
+                .position(point)
+                .icon(bitmap);
+
+//在地图上添加Marker，并显示
+
+        mBaiduMap.addOverlay(option);
+    }
+
+    private void initAudio(HouseDetailBean houseDetail) {
+        String[] url = houseDetail.getVoicePath().split(",");
+        ivVoice.setOnClickListener(v -> {
+            MediaPlayer player  =   new MediaPlayer();
+                try {
+                    player.setDataSource(Api.APP_DOMAIN+url[0]);
+                    player.prepare();
+                    player.start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+        });
+
+    }
+
+    private void initVideo(HouseDetailBean houseDetail) {
+        JCVideoPlayerStandard player = (JCVideoPlayerStandard) findViewById(R.id.player_video);
+        String[] url = houseDetail.getVideoPath().split(",");
+        boolean setUp = player.setUp(Api.APP_DOMAIN+url[0], JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
+       if (setUp) {
+            Glide.with(HouseDetailActivity.this).load(R.drawable.banner).into(player.thumbImageView);
+        }
+
+
+    }
+    @Override
+    public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mMapView.onPause();
+        JCVideoPlayer.releaseAllVideos();
+    }
+
+    private void initBulePrint(HouseDetailBean houseDetail) {
+        String[] url = houseDetail.getFyOutPath().split(",");
+        GlideTool.showImage(Api.APP_DOMAIN+url[0],ivBluePrint,this);
     }
 
     private void initText(HouseDetailBean houseDetail) {
@@ -244,6 +354,18 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
     protected void onStop() {
         mSliderLayout.stopAutoCycle();
         super.onStop();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
+        mMapView.onDestroy();
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //在activity执行onResume时执行mMapView. onResume ()，实现地图生命周期管理
+        mMapView.onResume();
     }
 
 
