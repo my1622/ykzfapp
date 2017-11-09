@@ -1,5 +1,6 @@
 package whzl.com.ykzfapp.mvp.ui.adapter;
 
+import android.os.Build;
 import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -7,6 +8,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 
 import whzl.com.ykzfapp.R;
 import whzl.com.ykzfapp.bean.HouseListBean;
+import whzl.com.ykzfapp.commom.Constant;
 import whzl.com.ykzfapp.mvp.model.api.Api;
 import whzl.com.ykzfapp.mvp.ui.widget.GlideTool;
 
@@ -43,11 +45,15 @@ public class HomeListAdapter extends BaseQuickAdapter<HouseListBean, BaseViewHol
     }
 
 
+
     @Override
     protected void convert(BaseViewHolder helper, HouseListBean item) {
 
         ImageView mAvater=helper.getView(R.id.first_pic);
-        GlideTool
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+            mAvater.setTransitionName(Constant.TRANSITION_ANIMATION_NEWS_PHOTOS);
+        }
+            GlideTool
                 .showImage(Api.APP_DOMAIN+item.getFirstPic()
                         ,mAvater,null);
         if (item.getTitle()!=null) {

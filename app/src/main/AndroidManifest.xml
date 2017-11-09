@@ -56,6 +56,7 @@
             </intent-filter>
         </activity>
 
+
         <!-- arms配置 -->
         <meta-data
             android:name="whzl.com.ykzfapp.app.GlobalConfiguration"
@@ -87,6 +88,7 @@
         <activity android:name=".mvp.ui.activity.PictureActivity" />
         <activity android:name=".mvp.ui.activity.AudioActivity" />
         <activity android:name=".mvp.ui.activity.VideoActivity" />
+        <activity android:name=".mvp.ui.activity.VideoPlayActivity"/>
 
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -99,6 +101,7 @@
         </provider>
 
         <activity android:name=".mvp.ui.activity.SignActivity" />
+        <activity android:name=".mvp.ui.activity.PicturePlayAudioActivity"/>
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

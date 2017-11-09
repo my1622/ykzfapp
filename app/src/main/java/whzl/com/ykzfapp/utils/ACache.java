@@ -145,8 +145,9 @@ public class ACache {
      */
     public String getAsString(String key) {
         File file = mCache.get(key);
-        if (!file.exists())
+        if (!file.exists()) {
             return null;
+        }
         boolean removeFile = false;
         BufferedReader in = null;
         try {
@@ -173,8 +174,9 @@ public class ACache {
                     e.printStackTrace();
                 }
             }
-            if (removeFile)
+            if (removeFile) {
                 remove(key);
+            }
         }
     }
 
@@ -330,8 +332,9 @@ public class ACache {
         boolean removeFile = false;
         try {
             File file = mCache.get(key);
-            if (!file.exists())
+            if (!file.exists()) {
                 return null;
+            }
             RAFile = new RandomAccessFile(file, "r");
             byte[] byteArray = new byte[(int) RAFile.length()];
             RAFile.read(byteArray);
@@ -352,8 +355,9 @@ public class ACache {
                     e.printStackTrace();
                 }
             }
-            if (removeFile)
+            if (removeFile) {
                 remove(key);
+            }
         }
     }
 
@@ -427,14 +431,16 @@ public class ACache {
                 return null;
             } finally {
                 try {
-                    if (bais != null)
+                    if (bais != null) {
                         bais.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 try {
-                    if (ois != null)
+                    if (ois != null) {
                         ois.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -538,8 +544,9 @@ public class ACache {
      */
     public File file(String key) {
         File f = mCache.newFile(key);
-        if (f.exists())
+        if (f.exists()) {
             return f;
+        }
         return null;
     }
 
@@ -793,8 +800,9 @@ public class ACache {
 
         private static byte[] copyOfRange(byte[] original, int from, int to) {
             int newLength = to - from;
-            if (newLength < 0)
+            if (newLength < 0) {
                 throw new IllegalArgumentException(from + " > " + to);
+            }
             byte[] copy = new byte[newLength];
             System.arraycopy(original, from, copy, 0,
                     Math.min(original.length - from, newLength));

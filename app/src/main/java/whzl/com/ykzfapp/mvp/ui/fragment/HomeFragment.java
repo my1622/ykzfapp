@@ -166,6 +166,8 @@ public class HomeFragment extends BaseFragment<HomePresenter>
             Intent intent = new Intent(getContext(), HouseDetailActivity.class);
             intent.putExtra("houseId",String.valueOf(((HomeListAdapter)adapter).getItem(position).getId()));
             startActivity(intent);
+
+
         });
         mAdatper.setOnItemChildClickListener((adapter, view, position) -> {
             switch (view.getId()){

@@ -2,6 +2,7 @@ package whzl.com.ykzfapp.mvp.ui.activity;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
@@ -37,12 +38,14 @@ import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import whzl.com.ykzfapp.R;
 import whzl.com.ykzfapp.bean.HouseDetailBean;
+import whzl.com.ykzfapp.commom.Constant;
 import whzl.com.ykzfapp.di.component.DaggerHouseDetailComponent;
 import whzl.com.ykzfapp.di.module.HouseDetailModule;
 import whzl.com.ykzfapp.mvp.contract.HouseDetailContract;
 import whzl.com.ykzfapp.mvp.model.api.Api;
 import whzl.com.ykzfapp.mvp.presenter.HouseDetailPresenter;
 import whzl.com.ykzfapp.mvp.ui.widget.GlideTool;
+import whzl.com.ykzfapp.utils.ToastUtil;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
 import static whzl.com.ykzfapp.commom.Constant.getFitmentType;
@@ -51,8 +54,6 @@ import static whzl.com.ykzfapp.commom.Constant.getRegion;
 
 
 public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> implements HouseDetailContract.View {
-
-
 
 
     @BindView(R.id.toolbar_me)
@@ -72,7 +73,7 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
 
     @BindView(R.id.iv_voice)
     ImageView ivVoice;
- 
+
     @BindView(R.id.tv_address)
     TextView tvAddress;
 
@@ -118,10 +119,13 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
     TextView tvCheckTel;
 
 
-    MapView mMapView=null;
+    MapView mMapView = null;
 
     private BaiduMap mBaiduMap;
     private String houseId;
+
+    MediaPlayer player;
+    boolean isplaying = false, isError = false;
 
     @Override
     public void setupActivityComponent(AppComponent appComponent) {
@@ -140,7 +144,7 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        mMapView= (MapView) findViewById(R.id.bmapView);
+        mMapView = (MapView) findViewById(R.id.bmapView);
         houseId = getIntent().getStringExtra("houseId");
         mPresenter.requestData(houseId);
         initToolbar();
@@ -195,66 +199,106 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
 
     private void initBaiduMap(HouseDetailBean houseDetail) {
 
-        mBaiduMap=mMapView.getMap();
-        LatLng point = new LatLng(Double.valueOf(houseDetail.getLat()),
-                Double.valueOf(houseDetail.getLng()));
-        MapStatus msu =  new MapStatus.Builder()
-                .target(point)
-                .zoom(17)
-                .build();
-        MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(msu);
-        //改变地图状态
-        mBaiduMap.setMapStatus(mMapStatusUpdate);
+        mBaiduMap = mMapView.getMap();
+        try {
+            if (houseDetail.getLat()!=null&&houseDetail.getLng()!=null) {
+                LatLng point = new LatLng(Double.valueOf(houseDetail.getLat()),
+                        Double.valueOf(houseDetail.getLng()));
+                MapStatus msu = new MapStatus.Builder()
+                        .target(point)
+                        .zoom(17)
+                        .build();
+                MapStatusUpdate mMapStatusUpdate = MapStatusUpdateFactory.newMapStatus(msu);
+                //改变地图状态
+                mBaiduMap.setMapStatus(mMapStatusUpdate);
 
+                //构建Marker图标
+                BitmapDescriptor bitmap = BitmapDescriptorFactory
+                        .fromResource(R.mipmap.icon_gcoding);
 
-        //定义Maker坐标点
+                //构建MarkerOption，用于在地图上添加Marker
+                OverlayOptions option = new MarkerOptions()
+                        .position(point)
+                        .icon(bitmap);
 
-
-//构建Marker图标
-
-        BitmapDescriptor bitmap = BitmapDescriptorFactory
-                .fromResource(R.mipmap.icon_gcoding);
-
-//构建MarkerOption，用于在地图上添加Marker
-
-        OverlayOptions option = new MarkerOptions()
-                .position(point)
-                .icon(bitmap);
-
-//在地图上添加Marker，并显示
-
-        mBaiduMap.addOverlay(option);
+                //在地图上添加Marker，并显示
+                mBaiduMap.addOverlay(option);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void initAudio(HouseDetailBean houseDetail) {
-        String[] url = houseDetail.getVoicePath().split(",");
-        ivVoice.setOnClickListener(v -> {
-            MediaPlayer player  =   new MediaPlayer();
-                try {
-                    player.setDataSource(Api.APP_DOMAIN+url[0]);
-                    player.prepare();
-                    player.start();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        if (!"".equals(houseDetail.getVoicePath())) {
+            String[] url = houseDetail.getVoicePath().split(",");
+            ivVoice.setOnClickListener(v -> {
+                if (!isplaying && !isError) {
+                    try {
+                        isplaying = true;
+                        player = new MediaPlayer();
+                        player.setDataSource(Api.APP_DOMAIN + url[0].substring(1));
+                        player.prepareAsync();
+                        player.setOnPreparedListener(mp -> {
+                            // 装载完毕 开始播放流媒体
+                            mp.start();
 
-        });
+                        });
+
+                        player.setOnCompletionListener(mp -> isplaying = false);
+                        player.setOnErrorListener((mp, what, extra) -> {
+                            isError = true;
+                            ToastUtil.show(HouseDetailActivity.this,"请重新上传！");
+                            return false;
+                        });
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+                }
+            });
+        }else{
+            ivVoice.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 释放播放器资源
+     */
+    private void ReleasePlayer() {
+        if (player != null) {
+            player.stop();
+
+            //关键语句
+            player.reset();
+
+            player.release();
+            player = null;
+        }
 
     }
 
     private void initVideo(HouseDetailBean houseDetail) {
         JCVideoPlayerStandard player = (JCVideoPlayerStandard) findViewById(R.id.player_video);
-        String[] url = houseDetail.getVideoPath().split(",");
-        boolean setUp = player.setUp(Api.APP_DOMAIN+url[0], JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
-       if (setUp) {
-            Glide.with(HouseDetailActivity.this).load(R.drawable.banner).into(player.thumbImageView);
+        if (!"".equals(houseDetail.getVideoPath())) {
+            String[] url = houseDetail.getVideoPath().split(",");
+            boolean setUp = player.setUp(Api.APP_DOMAIN + url[0].substring(1), JCVideoPlayer.SCREEN_LAYOUT_LIST, "");
+            if (setUp) {
+                Glide.with(HouseDetailActivity.this).load(R.drawable.banner).into(player.thumbImageView);
+            }else{
+                player.setVisibility(View.GONE);
+            }
+        }else{
+            player.setVisibility(View.GONE);
         }
 
-
     }
+
     @Override
     public void onBackPressed() {
-        if (JCVideoPlayer.backPress()) {
+        if (JCVideoPlayerStandard.backPress()) {
             return;
         }
         super.onBackPressed();
@@ -264,90 +308,133 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
     protected void onPause() {
         super.onPause();
         mMapView.onPause();
-        JCVideoPlayer.releaseAllVideos();
+        JCVideoPlayerStandard.releaseAllVideos();
     }
 
     private void initBulePrint(HouseDetailBean houseDetail) {
         String[] url = houseDetail.getFyOutPath().split(",");
-        GlideTool.showImage(Api.APP_DOMAIN+url[0],ivBluePrint,this);
+        GlideTool.showImage(Api.APP_DOMAIN + url[0], ivBluePrint, this);
     }
 
     private void initText(HouseDetailBean houseDetail) {
-        tvTitle.setText(houseDetail.getTitle()+"");
-         tvAddress.setText(houseDetail.getCommunityAddress()+"");
+        tvTitle.setText(houseDetail.getTitle() + "");
+        tvAddress.setText(houseDetail.getCommunityAddress() + "");
 
-         tvFwlx.setText(houseDetail.getBedRooms() + "室"
-                 + houseDetail.getLivingRooms() + "厅"
-                 + houseDetail.getCookRooms() + "厨"
-                 + houseDetail.getBathRooms() + "卫"
-                 + " | " + houseDetail.getArea() + "m²");
-         tvPrice.setText(String.valueOf(houseDetail.getSalePrice())+"万");
-         tvServiceCharge.setText(" ￥"+houseDetail.getServiceCharge()+"元");
-         tvAgencyFee.setText(" ￥"+houseDetail.getAgencyFee()+"元");
+        tvFwlx.setText(houseDetail.getBedRooms() + "室"
+                + houseDetail.getLivingRooms() + "厅"
+                + houseDetail.getCookRooms() + "厨"
+                + houseDetail.getBathRooms() + "卫"
+                + " | " + houseDetail.getArea() + "m²");
+        tvPrice.setText(String.valueOf(houseDetail.getSalePrice()) + "万");
+        if (houseDetail.getServiceCharge()!=null) {
+            tvServiceCharge.setText(" ￥" + houseDetail.getServiceCharge() + "元");
+        }else{
+            tvServiceCharge.setText(" ￥" );
+        }
+        if (houseDetail.getAgencyFee()!=null) {
+            tvAgencyFee.setText(" ￥" + houseDetail.getAgencyFee() + "元");
+        }else{
+            tvAgencyFee.setText(" ￥" );
+        }
         List<String> tags = houseDetail.getTagsArray();
-        switch (tags.size()){
-            case 1:
-                tvTag1.setText(tags.get(0));
-                tvTag2.setVisibility(View.GONE);
-                tvTag3.setVisibility(View.GONE);
-                tvTag4.setVisibility(View.GONE);
-                break;
-            case 2:
-                tvTag1.setText(tags.get(0));
-                tvTag2.setText(tags.get(1));
-                tvTag3.setVisibility(View.GONE);
-                tvTag4.setVisibility(View.GONE);
-                break;
+        if (tags != null) {
+            switch (tags.size()) {
+                case 1:
+                    tvTag1.setText(tags.get(0));
+                    tvTag2.setVisibility(View.GONE);
+                    tvTag3.setVisibility(View.GONE);
+                    tvTag4.setVisibility(View.GONE);
+                    break;
+                case 2:
+                    tvTag1.setText(tags.get(0));
+                    tvTag2.setText(tags.get(1));
+                    tvTag3.setVisibility(View.GONE);
+                    tvTag4.setVisibility(View.GONE);
+                    break;
 
-            case 3:
-                tvTag1.setText(tags.get(0));
-                tvTag2.setText(tags.get(1));
-                tvTag3.setText(tags.get(2));
-                tvTag4.setVisibility(View.GONE);
-                break;
-            case 4:
-                tvTag1.setText(tags.get(0));
-                tvTag2.setText(tags.get(1));
-                tvTag3.setText(tags.get(2));
-                tvTag4.setText(tags.get(3));
-                break;
+                case 3:
+                    tvTag1.setText(tags.get(0));
+                    tvTag2.setText(tags.get(1));
+                    tvTag3.setText(tags.get(2));
+                    tvTag4.setVisibility(View.GONE);
+                    break;
+                case 4:
+                    tvTag1.setText(tags.get(0));
+                    tvTag2.setText(tags.get(1));
+                    tvTag3.setText(tags.get(2));
+                    tvTag4.setText(tags.get(3));
+                    break;
+            }
+        }
+
+        tvCommunityName.setText(houseDetail.getCommunityName() + "");
+        tvUnitPrice.setText(String.valueOf(houseDetail.getUnitPrice()) + "元/平米");
+        tvOrientation.setText(getOrientatioan(houseDetail.getOrientation()) + "");
+        tvRegion.setText(getRegion(houseDetail.getRegion() + ""));
+        tvLocatedFloorTotalFloors.setText(houseDetail.getLocatedFloor() + "/" + houseDetail.getTotalFloors() + "层" + "");
+        tvFitmentType.setText(getFitmentType(houseDetail.getFitmentType() + ""));
+        String[] creatOn = houseDetail.getCreatedOn().split(" ");
+        tvCreatedOn.setText(creatOn[0] + "发布");
+        tvViewTimes.setText(houseDetail.getViewTimes() + "");
+        if (houseDetail.getContact()!=null) {
+            tvContact.setText(houseDetail.getContact() + "");
+        }else{
+            tvContact.setText( "");
+        }
+        if (houseDetail.getPhone()!=null) {
+            tvPhone.setText(houseDetail.getPhone() + "");
+        }else{
+            tvPhone.setText("");
+        }
+        if (houseDetail.getCheckFullName()!=null){
+            tvCheckFullName.setText(houseDetail.getCheckFullName() + "");
+        }else{
+            tvCheckFullName.setText( "");
+        }
+        if (houseDetail.getCheckTel()!=null){
+            tvCheckTel.setText(houseDetail.getCheckTel() + "");
+        }else{
+            tvCheckTel.setText("");
         }
 
 
-         tvCommunityName.setText(houseDetail.getCommunityName()+"");
-         tvUnitPrice.setText(String.valueOf(houseDetail.getUnitPrice())+"元/平米");
-         tvOrientation.setText(getOrientatioan(houseDetail.getOrientation())+"");
-         tvRegion.setText(getRegion(houseDetail.getRegion()+""));
-         tvLocatedFloorTotalFloors.setText(houseDetail.getLocatedFloor()+"/"+houseDetail.getTotalFloors()+"层"+"");
-         tvFitmentType.setText(getFitmentType(houseDetail.getFitmentType()+""));
-        String[] creatOn = houseDetail.getCreatedOn().split(" ");
-         tvCreatedOn.setText(creatOn[0]+"发布");
-         tvViewTimes.setText(houseDetail.getViewTimes()+"");
-         tvContact.setText(houseDetail.getContact()+"");
-         tvPhone.setText(houseDetail.getPhone()+"");
-         tvCheckFullName.setText(houseDetail.getCheckFullName()+"");
-         tvCheckTel.setText(houseDetail.getCheckTel()+"");
     }
 
 
-
     private void initSlider(String fyPath) {
-        String[] strings = fyPath.split(",");
 
-        DefaultSliderView[] DefaultSliderViews = new DefaultSliderView[strings.length];
+        if (!(("").equals(fyPath))) {
+            String[] strings = fyPath.split(",");
+            DefaultSliderView[] DefaultSliderViews = new DefaultSliderView[strings.length];
 
-        for (int i = 0; i < strings.length; i++) {
-            DefaultSliderViews[i] = new DefaultSliderView(this);
-            DefaultSliderViews[i]
+            for (int i = 0; i < strings.length; i++) {
+                DefaultSliderViews[i] = new DefaultSliderView(this);
+                DefaultSliderViews[i]
 
+                        .setScaleType(BaseSliderView.ScaleType.CenterCrop)
+                        .image(Api.APP_DOMAIN + strings[i].substring(1));
+                mSliderLayout.addSlider(DefaultSliderViews[i]);
+            }
+            mSliderLayout.setCustomIndicator(mPagerIndicator);
+            mSliderLayout.setCustomAnimation(new DescriptionAnimation());
+            mSliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
+            mSliderLayout.setDuration(3000);
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+                DefaultSliderViews[0].getView().setTransitionName(Constant.TRANSITION_ANIMATION_NEWS_PHOTOS);
+            }
+
+        }else{
+            DefaultSliderView DefaultSliderView ;
+            DefaultSliderView= new DefaultSliderView(this);
+            DefaultSliderView
                     .setScaleType(BaseSliderView.ScaleType.CenterCrop)
-                    .image(Api.APP_DOMAIN + strings[i]);
-            mSliderLayout.addSlider(DefaultSliderViews[i]);
+                    .image(R.drawable.banner);
+            mSliderLayout.addSlider(DefaultSliderView);
+            mSliderLayout.stopAutoCycle();
+            if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP) {
+                DefaultSliderView.getView().setTransitionName(Constant.TRANSITION_ANIMATION_NEWS_PHOTOS);
+            }
         }
-        mSliderLayout.setCustomIndicator(mPagerIndicator);
-        mSliderLayout.setCustomAnimation(new DescriptionAnimation());
-        mSliderLayout.setPresetTransformer(SliderLayout.Transformer.Default);
-        mSliderLayout.setDuration(3000);
     }
 
     @Override
@@ -355,12 +442,15 @@ public class HouseDetailActivity extends BaseActivity<HouseDetailPresenter> impl
         mSliderLayout.stopAutoCycle();
         super.onStop();
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         //在activity执行onDestroy时执行mMapView.onDestroy()，实现地图生命周期管理
         mMapView.onDestroy();
+        ReleasePlayer();
     }
+
     @Override
     protected void onResume() {
         super.onResume();

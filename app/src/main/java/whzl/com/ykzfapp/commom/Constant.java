@@ -14,6 +14,7 @@ import whzl.com.ykzfapp.bean.DictionaryBean;
 public class Constant {
 
 
+    public static final String TRANSITION_ANIMATION_NEWS_PHOTOS = "transition_animation_news_photos";
     public static List<DictionaryBean> DICTIONARY=null;
 
     public static String getOrientatioan(String s) {

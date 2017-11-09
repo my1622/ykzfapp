@@ -10,9 +10,9 @@ import android.widget.TextView;
 import com.jess.arms.base.BaseActivity;
 import com.jess.arms.di.component.AppComponent;
 import com.jess.arms.utils.ArmsUtils;
-import com.luck.picture.lib.PictureSelector;
 
 import butterknife.BindView;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 import whzl.com.ykzfapp.R;
 import whzl.com.ykzfapp.bean.HouseDetailBean;
 import whzl.com.ykzfapp.di.component.DaggerDetailHouseComponent;
@@ -25,7 +25,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
 
 
 public class DetailHouseActivity extends BaseActivity<DetailHousePresenter>
-        implements DetailHouseContract.View,View.OnClickListener {
+        implements DetailHouseContract.View, View.OnClickListener {
 
     @BindView(R.id.tv_communityName)
     TextView tvCommunityName;
@@ -125,7 +125,7 @@ public class DetailHouseActivity extends BaseActivity<DetailHousePresenter>
     }
 
     private void initText(HouseDetailBean houseDetail) {
-        mHouseDetail=houseDetail;
+        mHouseDetail = houseDetail;
         tvTitle.setText(houseDetail.getTitle() + "");
         tvCommunityName.setText(houseDetail.getCommunityName() + "");
         tvUnitNo.setText(houseDetail.getUnitNo() + "");
@@ -136,26 +136,39 @@ public class DetailHouseActivity extends BaseActivity<DetailHousePresenter>
         tvCookRooms.setText(houseDetail.getCookRooms() + "");
         tvBathrooms.setText(houseDetail.getBathRooms() + "");
 
-        initButtons(tvFyPath,houseDetail.getFyPath());
-        initButtons(tvFyOutPath,houseDetail.getFyOutPath());
-        initButtons(tvHxPath,houseDetail.getHxPath());
-        initButtons(tvVoicePath,houseDetail.getVoicePath());
-        initButtons(tvVideoPath,houseDetail.getVideoPath());
+        initButtons(tvFyPath, houseDetail.getFyPath());
+        initButtons(tvFyOutPath, houseDetail.getFyOutPath());
+        initButtons(tvHxPath, houseDetail.getHxPath());
+        initButtons(tvVoicePath, houseDetail.getVoicePath());
+        initButtons(tvVideoPath, houseDetail.getVideoPath());
 
     }
 
     private void initButtons(TextView tv, String str) {
-        if ("".equals(str)){
+        if ("".equals(str)) {
             tv.setText("暂未上传");
-        }else{
-            tv .setOnClickListener(this);
+        } else {
+            tv.setOnClickListener(this);
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if (JCVideoPlayerStandard.backPress()) {
+            return;
+        }
+        super.onBackPressed();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JCVideoPlayerStandard.releaseAllVideos();
+    }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tv_fy_path:
                 Intent intent = new Intent(this, StaticPicture.class);
                 intent.putExtra("path", mHouseDetail.getFyPath());
@@ -172,16 +185,25 @@ public class DetailHouseActivity extends BaseActivity<DetailHousePresenter>
                 startActivity(intent2);
                 break;
             case R.id.tv_video_path:
-                String[] url = mHouseDetail.getVideoPath().split(",");
+                if (!mHouseDetail.getVideoPath().equals("")) {
+                    String[] url = mHouseDetail.getVideoPath().split(",");
+                    JCVideoPlayerStandard.startFullscreen(this, JCVideoPlayerStandard.class,
+                            Api.APP_DOMAIN + url[0].substring(1),"");
 
-                PictureSelector.create(DetailHouseActivity.this).externalPictureVideo(Api.APP_DOMAIN+url[0].substring(1));
 
+                }
                 break;
             case R.id.tv_voice_path:
-                String[] url1 = mHouseDetail.getVoicePath().split(",");
+                if (!mHouseDetail.getVoicePath().equals("")) {
+                    String[] url1 = mHouseDetail.getVoicePath().split(",");
+                    Intent intentPlayAudio = new Intent(this, PicturePlayAudioActivity.class);
+                    intentPlayAudio.putExtra("audio_path", Api.APP_DOMAIN + url1[0].substring(1));
+                    this.startActivity(intentPlayAudio);
 
-                PictureSelector.create(DetailHouseActivity.this).externalPictureAudio(Api.APP_DOMAIN+url1[0].substring(1));
 
+                }
+                break;
+            default:
                 break;
         }
     }

@@ -129,7 +129,7 @@ public class GridImageAdapter extends
             if (type.equals("audio")) {
                 viewHolder.mImg.setImageResource(R.mipmap.addvoice);
             }else if (type.equals("video")){
-                viewHolder.mImg.setImageResource(R.mipmap.app_picture);
+                viewHolder.mImg.setImageResource(R.mipmap.add_video);
             }else if (type.equals("picture")){
                 viewHolder.mImg.setImageResource(R.mipmap.app_picture);
             }

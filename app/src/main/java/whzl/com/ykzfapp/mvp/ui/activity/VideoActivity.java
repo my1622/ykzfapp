@@ -118,7 +118,7 @@ public class VideoActivity extends BaseActivity <UploadFilePresenter>
                     .isZoomAnim(true)// 图片列表点击 缩放效果 默认true
                     //.setOutputCameraPath("/CustomPath")// 自定义拍照保存路径
                     .enableCrop(false)// 是否裁剪
-                    .compress(false)// 是否压缩
+                    .compress(true)// 是否压缩
                     .compressMode(compressMode)//系统自带 or 鲁班压缩 PictureConfig.SYSTEM_COMPRESS_MODE or LUBAN_COMPRESS_MODE
                     //.sizeMultiplier(0.5f)// glide 加载图片大小 0~1之间 如设置 .glideOverride()无效
                     .glideOverride(160, 160)// glide 加载宽高，越小图片列表越流畅，但会影响列表图片浏览的清晰度
@@ -139,7 +139,7 @@ public class VideoActivity extends BaseActivity <UploadFilePresenter>
                     //.cropWH()// 裁剪宽高比，设置如果大于图片本身宽高则无效
                     //.rotateEnabled() // 裁剪是否可旋转图片
                     //.scaleEnabled()// 裁剪是否可放大缩小图片
-                    //.videoQuality()// 视频录制质量 0 or 1
+                    .videoQuality(0)// 视频录制质量 0 or 1
                     //.videoSecond()//显示多少秒以内的视频or音频也可适用
                     //.recordVideoSecond()//录制视频秒数 默认60s
                     .forResult(PictureConfig.CHOOSE_REQUEST);//结果回调onActivityResult code
@@ -157,28 +157,25 @@ public class VideoActivity extends BaseActivity <UploadFilePresenter>
         adapter.setType("video");
         adapter.setSelectMax(maxSelectNum);
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(new GridImageAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                if (selectList.size() > 0) {
-                    LocalMedia media = selectList.get(position);
-                    String pictureType = media.getPictureType();
-                    int mediaType = PictureMimeType.pictureToVideo(pictureType);
-                    switch (mediaType) {
-                        case 1:
-                            // 预览图片 可自定长按保存路径
-                            //PictureSelector.create(MainActivity.this).externalPicturePreview(position, "/custom_file", selectList);
-                            PictureSelector.create(VideoActivity.this).externalPicturePreview(position, selectList);
-                            break;
-                        case 2:
-                            // 预览视频
-                            PictureSelector.create(VideoActivity.this).externalPictureVideo(media.getPath());
-                            break;
-                        case 3:
-                            // 预览音频
-                            PictureSelector.create(VideoActivity.this).externalPictureAudio(media.getPath());
-                            break;
-                    }
+        adapter.setOnItemClickListener((position, v) -> {
+            if (selectList.size() > 0) {
+                LocalMedia media = selectList.get(position);
+                String pictureType = media.getPictureType();
+                int mediaType = PictureMimeType.pictureToVideo(pictureType);
+                switch (mediaType) {
+                    case 1:
+                        // 预览图片 可自定长按保存路径
+                        //PictureSelector.create(MainActivity.this).externalPicturePreview(position, "/custom_file", selectList);
+                        PictureSelector.create(VideoActivity.this).externalPicturePreview(position, selectList);
+                        break;
+                    case 2:
+                        // 预览视频
+                        PictureSelector.create(VideoActivity.this).externalPictureVideo(media.getPath());
+                        break;
+                    case 3:
+                        // 预览音频
+                        PictureSelector.create(VideoActivity.this).externalPictureAudio(media.getPath());
+                        break;
                 }
             }
         });

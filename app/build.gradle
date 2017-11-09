@@ -2,6 +2,14 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'key0'
+            keyPassword '123456'
+            storeFile file('C:/Users/my/Desktop/my.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     buildToolsVersion rootProject.ext.android["buildToolsVersion"]
     defaultConfig {
@@ -17,15 +25,14 @@ android {
             jniLibs.srcDir 'libs'
         }
     }
-
-        buildTypes {
+    buildTypes {
         release {
             buildConfigField("boolean", "API_ENV", "true")
             buildConfigField "boolean", "LOG_DEBUG", "true"
             buildConfigField "boolean", "USE_CANARY", "true"
-
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "false"
@@ -34,15 +41,12 @@ android {
             shrinkResources true
             zipAlignEnabled true
             buildConfigField("boolean", "API_ENV", "false")
-
-
         }
         lintOptions {
             disable 'InvalidPackage'
             disable "ResourceType"
             abortOnError false
         }
-
     }
     packagingOptions {
 
@@ -102,5 +106,6 @@ dependencies {
      *
      * * */
     compile 'fm.jiecao:jiecaovideoplayer:4.8.3'
+
     compile files('libs/BaiduLBS_Android.jar')
 }

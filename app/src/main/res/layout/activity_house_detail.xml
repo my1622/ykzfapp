@@ -22,7 +22,9 @@
             <com.daimajia.slider.library.SliderLayout
                 android:id="@+id/slider"
                 android:layout_width="match_parent"
-                android:layout_height="160dp">
+                android:layout_height="160dp"
+                android:transitionName="@string/transition_photos"
+                >
 
                 <com.daimajia.slider.library.Indicators.PagerIndicator
                     android:id="@+id/custom_indicator"
